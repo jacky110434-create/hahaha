@@ -1,0 +1,797 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kyoto City Guide</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --surface:#0f172a;
+      --card:#111c33;
+      --card2:#0f1a30;
+      --text:#e8eefc;
+      --muted:#a9b6d4;
+      --muted2:#7f8bb0;
+      --line:rgba(255,255,255,.10);
+      --shadow: 0 18px 50px rgba(0,0,0,.45);
+      --shadow2: 0 10px 30px rgba(0,0,0,.35);
+      --radius:18px;
+
+      --brand:#7c3aed;   /* 紫 */
+      --brand2:#22c55e;  /* 綠（點綴） */
+      --brand3:#38bdf8;  /* 藍（點綴） */
+      --chip: rgba(255,255,255,.08);
+
+      font-family: ui-sans-serif, system-ui, -apple-system, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      background:
+        radial-gradient(1200px 520px at 10% -10%, rgba(124,58,237,.35), transparent 55%),
+        radial-gradient(900px 420px at 90% 10%, rgba(56,189,248,.22), transparent 55%),
+        linear-gradient(180deg, #070a14, var(--bg));
+      color:var(--text);
+    }
+
+    .app{
+      max-width: 460px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding-bottom: 120px;
+    }
+
+    /* ===== Top hero ===== */
+    .hero{
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 18px 16px 12px;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.65), rgba(0,0,0,.10)),
+        radial-gradient(900px 360px at 30% 0%, rgba(124,58,237,.42), transparent 60%),
+        radial-gradient(900px 360px at 90% 20%, rgba(56,189,248,.18), transparent 60%),
+        rgba(15,23,42,.75);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .heroTop{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      justify-content:space-between;
+    }
+    .city{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .city h1{
+      margin:0;
+      font-size: 20px;
+      letter-spacing: .3px;
+      line-height: 1.2;
+    }
+    .city p{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .badge{
+      align-self:flex-start;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: linear-gradient(120deg, rgba(124,58,237,.25), rgba(56,189,248,.18));
+      border: 1px solid rgba(255,255,255,.14);
+      color: #dbeafe;
+      font-weight: 700;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .search{
+      margin-top: 12px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+    }
+    .search input{
+      width:100%;
+      border:none;
+      outline:none;
+      background: transparent;
+      color: var(--text);
+      font-size: 14px;
+    }
+    .search .hint{
+      color: var(--muted2);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .chips{
+      display:flex;
+      gap:10px;
+      overflow-x:auto;
+      padding: 12px 2px 2px;
+      scrollbar-width:none;
+    }
+    .chips::-webkit-scrollbar{ display:none; }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--chip);
+      border: 1px solid rgba(255,255,255,.10);
+      color: var(--text);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .chip b{ color:#e0e7ff; }
+
+    /* ===== Tabs ===== */
+    .tabs{
+      display:flex;
+      gap:10px;
+      overflow-x:auto;
+      padding: 12px 16px 6px;
+      scrollbar-width:none;
+    }
+    .tabs::-webkit-scrollbar{ display:none; }
+    .tab{
+      cursor:pointer;
+      user-select:none;
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      transition:.15s ease;
+      white-space:nowrap;
+    }
+    .tab.active{
+      color: #0b1020;
+      background: linear-gradient(120deg, rgba(124,58,237,.95), rgba(56,189,248,.85));
+      border-color: transparent;
+      font-weight: 900;
+      box-shadow: 0 12px 30px rgba(124,58,237,.25);
+    }
+
+    /* ===== Content ===== */
+    .content{ padding: 10px 16px 0; }
+    .section{ display:none; }
+    .section.active{ display:block; }
+
+    .sectionTitle{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin: 14px 2px 10px;
+    }
+    .sectionTitle h2{
+      margin:0;
+      font-size: 15px;
+      letter-spacing:.2px;
+    }
+    .sectionTitle span{
+      color: var(--muted2);
+      font-size: 12.5px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius);
+      padding: 14px;
+      box-shadow: var(--shadow2);
+    }
+
+    .cardHead{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      justify-content:space-between;
+    }
+
+    .title{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      min-width: 0;
+    }
+    .title h3{
+      margin:0;
+      font-size: 15.5px;
+      line-height: 1.25;
+    }
+    .meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      color: var(--muted);
+      font-size: 12.8px;
+      line-height:1.4;
+    }
+    .pill{
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .btn{
+      cursor:pointer;
+      border:none;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 900;
+      color: #0b1020;
+      background: linear-gradient(120deg, rgba(255,255,255,.90), rgba(255,255,255,.72));
+      box-shadow: 0 12px 28px rgba(0,0,0,.25);
+      transition:.15s ease;
+      white-space:nowrap;
+    }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn.secondary{
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow:none;
+      font-weight: 800;
+    }
+
+    .desc{
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 13.2px;
+      line-height: 1.6;
+    }
+
+    /* ===== Timeline (Day plan) ===== */
+    .timeline{
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+    .row{
+      display:grid;
+      grid-template-columns: 64px 1fr;
+      gap: 12px;
+      align-items:start;
+    }
+    .time{
+      font-weight: 900;
+      color: #c7d2fe;
+      font-variant-numeric: tabular-nums;
+      padding-top: 10px;
+    }
+    .tCard{
+      position: relative;
+      border-radius: var(--radius);
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background:
+        radial-gradient(520px 120px at 20% 0%, rgba(124,58,237,.20), transparent 60%),
+        rgba(255,255,255,.04);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .tCard::before{
+      content:"";
+      position:absolute;
+      left: 0;
+      top: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--brand), var(--brand3));
+      opacity: .85;
+    }
+    .tCard h3{ margin:0 0 6px; font-size: 15.2px; }
+    .tCard .small{ color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+    .link{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin-top: 10px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(56,189,248,.10);
+      border: 1px solid rgba(56,189,248,.20);
+      color:#c7ecff;
+      font-weight: 900;
+      font-size: 13px;
+      text-decoration:none;
+      width: fit-content;
+    }
+
+    /* ===== Bottom stay bar ===== */
+    .stay{
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 14px;
+      width: min(460px, calc(100% - 28px));
+      border-radius: 22px;
+      padding: 14px;
+      background:
+        radial-gradient(900px 220px at 10% 0%, rgba(255,255,255,.10), transparent 55%),
+        linear-gradient(135deg, rgba(124,58,237,.45), rgba(56,189,248,.18)),
+        rgba(15,23,42,.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      display:flex;
+      gap: 12px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .stayInfo{ min-width:0; }
+    .stayInfo .label{
+      font-size: 12.5px;
+      color: rgba(255,255,255,.80);
+      margin-bottom: 4px;
+    }
+    .stayInfo .name{
+      font-weight: 950;
+      letter-spacing:.2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .stayInfo .addr{
+      margin-top: 4px;
+      color: rgba(255,255,255,.75);
+      font-size: 12.5px;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+    }
+
+    .toast{
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 92px;
+      background: rgba(0,0,0,.65);
+      border: 1px solid rgba(255,255,255,.12);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      display:none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <div class="hero">
+      <div class="heroTop">
+        <div class="city">
+          <h1>蘇州、上海 City Guide</h1>
+          <p>7 天 6 夜</p>
+        </div>
+        <div class="badge">離線友善 </div>
+      </div>
+
+      <div class="search">
+        <span class="hint">🔎</span>
+        <input id="q" placeholder="搜尋景點 / 美食 / 區域" />
+        <span class="hint" id="count">0</span>
+      </div>
+
+    <div class="tabs" id="tabs">
+      <div class="tab active" data-tab="day1">Day 1</div>
+      <div class="tab" data-tab="day2">Day 2</div>
+      <div class="tab" data-tab="day3">Day 3</div>
+      <div class="tab" data-tab="day4">Day 4</div>
+      <div class="tab" data-tab="day5">Day 5</div>
+      <div class="tab" data-tab="day5">Day 6</div>
+      <div class="tab" data-tab="day5">Day 7</div>
+      <div class="tab" data-tab="food">美食咖啡</div>
+      <div class="tab" data-tab="info">交通資訊</div>
+    </div>
+
+    <div class="content">
+
+      <!-- Day 1 -->
+      <div class="section active" id="day1" data-section="day">
+        <div class="sectionTitle">
+          <h2>Day 1 </h2><span>搭搭小船</span>
+        </div>
+
+        <div class="timeline">
+          <div class="row titem" data-tags="桃園機場">
+            <div class="time">11:30</div>
+            <div class="tCard">
+              <h3>桃園機場</h3>
+              <a class="link" target="_blank" href="https://maps.app.goo.gl/ffBZdN48gvi625VE6">📍 開地圖</a>
+            </div>
+          </div>
+
+          <div class="row titem" data-tags="上海機場">
+            <div class="time">13:30</div>
+            <div class="tCard">
+              <h3>上海機場</h3>
+              <a class="link" target="_blank" href="https://maps.app.goo.gl/6V87PkyfJD2oxYpM7">📍 開地圖</a>
+            </div>
+          </div>
+        
+          <div class="row titem" data-tags="全季酒店">
+            <div class="time">14:30</div>
+            <div class="tCard">
+              <h3>全季酒店</h3>
+              <a class="link" target="_blank" href="https://maps.app.goo.gl/MkJ7Qdtfb6UZmPqL7">📍 開地圖</a>
+            </div>
+          </div>
+
+          <div class="row titem" data-tags="虎丘">
+            <div class="time">15:30</div>
+            <div class="tCard">
+              <h3>虎丘</h3>
+              <div class="small">門票70r<br>⏰ 时间：07:30-17:30（17:00停止入场）<br>
+                  推荐路线(全程约2.5h)<br>
+                  南门➠海涌桥➠拥翠山庄➠红枫林➠冷香阁➠第三泉➠剑池➠雪浪亭➠虎丘塔➠一榭园（北门）➠百步趋➠望苏台➠养鹤涧➠万景山庄➠南门<br>
+                   17:30 最後一班船到山塘街。</div>
+              <a class="link" target="_blank" href="https://maps.app.goo.gl/5MuTyJYDuZqNZ3r48">📍 開地圖</a>
+            </div>
+          </div>
+
+          <div class="row titem" data-tags="七里山塘">
+            <div class="time">18:00</div>
+            <div class="tCard">
+              <h3>七里山塘</h3>
+              <div class="small">游览顺序:<br>
+                  新民桥以北→山塘景区→阊门→民国风情街<br>
+                  √新民桥以北:以各种小吃居多，一直走可以到虎丘<br>
+                  √山塘景区打卡点:新民桥；商会博物馆；通贵桥；<br>白居易纪念苑；海市山塘(很多网红小吃)<br>
+                  √阊门:七里山塘的起点<br>
+                  √民国风情街:民国特色的建筑，很出片兰游船<br>
+                  =============================<br>
+                  游船🚢路線:<br>
+                  路线1山塘街古戏台码头→野芳浜→下塘码头<br>
+                  全程30min,船票$50 售票时间:8:00 -20:50<br>
+                  =============================<br>
+                  美食:<br>
+                  姑蘇船宴、熊貓蘇式火鍋、茉小茶、張小蟹、熊貓蘇式豆花
+                  、居易茶酒樓、江南蟹殼黃、益昌福包子、萬福義糕糰、裕興記、鑫震源
+                  </div>
+              <a class="link" target="_blank" href="https://maps.app.goo.gl/HyrmGWTFFKN7ekiq7">📍 開地圖</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Day 2 -->
+      <div class="section" id="day2" data-section="day">
+        <div class="sectionTitle">
+          <h2>Day 2 </h2><span>園、拍照｜步行多</span>
+        </div>
+
+        <div class="timeline">
+          <div class="row titem" data-tags="拙政園">
+            <div class="time">07:30</div>
+            <div class="tCard">
+              <h3>拙政園</h3>
+              <div class="small">門票提早1周買70r<br>推薦路線(2-3h)<br>
+              ➡️拙政园入口（东南1门）➡️ 兰雪堂➡️ 听雨轩➡️
+              玲珑馆➡️海棠春坞➡️远香堂➡️ 倚玉轩➡️ 小沧浪➡️ 
+              香洲➡️ 玉兰堂➡️ 别有洞天➡️ 宜两亭➡️ 卅六鸳鸯馆➡️ 
+              塔影亭➡️ 留听阁➡️ 与谁同坐轩➡️ 倒影楼➡️ 见山楼➡️ 
+              雪香云蔚亭➡️ 待霜亭➡️ 梧竹幽居➡️ 秫香馆➡️ 天泉亭➡️出口
+              </div>
+              <a class="link" target="_blank" href="https://maps.app.goo.gl/pex5etrQuqQ4KSTv5">📍 開地圖</a>
+            </div>
+          </div>
+
+          <div class="row titem" data-tags="蘇州博物館">
+            <div class="time">10:30</div>
+            <div class="tCard">
+              <h3>蘇州博物館</h3>
+              <div class="small">不須買票但先預約<br>🧩游览路线：(2-3h)<br>主入口→庭院→中央大厅（左拐）
+                →西廊→吴地遗珍→吴塔国宝→吴中风雅→草堂墨戏→主庭院
+                →现代艺术厅→艺术品商店→出口（忠王府）<br>
+                =============================<br>
+              🍜吃饭:翁同阁面馆(17r)</div>
+              <a class="link" target="_blank" href="https://maps.app.goo.gl/5tNcRghhyPiSYhQJ6">📍 開地圖</a>
+            </div>
+          </div>
+
+          <div class="row titem" data-tags="獅子林">
+            <div class="time">14:00</div>
+            <div class="tCard">
+              <h3>獅子林</h3>
+              <div class="small">門票40r<br>
+                游玩路线:(17:00)關園<br>
+                入口→门厅→祠堂→燕誉堂→小方厅→打盹亭→
+                九狮峰→揖峰指柏轩→古五松园→见山楼→花篮厅→
+                真趣亭→暗香疏影楼→石舫→飞瀑亭→湖心亭→问梅阁→
+                双香仙馆→扇亭→文天祥碑亭→御碑亭→修竹阁→水假山
+                →旱假山→卧云室→立雪堂→出口<br>
+                =============================<br>
+                📸 拍照攻略(迷宫打卡指南)<br>
+                ✅ 「九狮峰」仰拍：清晨光线最适合<br>
+                ✅ 「假山迷宫」俯拍：站高处的亭子往下拍<br>
+                ✅ 「燕誉堂」框景：透过月洞门拍白紫藤<br>
+                ✅ 「石舫」倒影：下午四点水面最平静<br>
+                ✅ 「修竹阁」窗景：竹影婆娑超有禅意</div>
+              <a class="link" target="_blank" href="https://maps.app.goo.gl/9fnAmMu4BMyPRATR6">📍 開地圖</a>
+            </div>
+          </div>
+
+          <div class="row titem" data-tags="江平路">
+            <div class="time">16:30</div>
+            <div class="tCard">
+              <h3>江平路</h3>
+              <div class="small">慢慢走走，吃晚餐、搭小船。<br>
+              美食路线：<br>
+              苏香记➡️梅月轩➡️鑫震源➡️茉香枕河➡️拙林里➡️沈万三➡️余丰堂➡️百年福</div>
+              <a class="link" target="_blank" href="https://maps.app.goo.gl/BA6d1aHKyrb7g8o5A">📍 開地圖</a>
+            </div>
+          </div>
+
+          <div class="row titem" data-tags="觀前街">
+            <div class="time">19:00</div>
+            <div class="tCard">
+              <h3>觀前街</h3>
+              <div class="small">如果時間夠就去，或者回去休息。</div>
+              <a class="link" target="_blank" href="https://maps.app.goo.gl/Gi1SimEaLtm8bcUK8">📍 開地圖</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Day 3 -->
+      <div class="section" id="day3" data-section="day">
+        <div class="sectionTitle">
+          <h2>Day 3 </h2><span>蘇州市區</span>
+        </div>
+
+        <div class="timeline">
+          <div class="row titem" data-tags="十全街">
+            <div class="time">10:00</div>
+            <div class="tCard">
+              <h3>十全街</h3>
+              <div class="small">吃東西的</div>
+              <a class="link" target="_blank" href="https://maps.app.goo.gl/kNppEuMVbhC6P7Lx5">📍 開地圖</a>
+            </div>
+          </div>
+
+          <div class="row titem" data-tags="網師園">
+            <div class="time">11:00</div>
+            <div class="tCard">
+              <h3>網師園</h3>
+              <div class="small">📝游玩路线(30r)：<br>
+                门厅→轿厅→万卷堂→撷秀楼→五峰书屋→集虚斋→竹外一枝轩→看松读画轩→
+                殿春簃→冷泉亭→月到风来亭→濯缨水阁→露华馆→蹈和馆→琴室→小山丛桂轩→引静桥→梯云室→瓷器馆→出口<br>
+                 =============================<br>
+              🍜苏州汤面推荐：姑苏桥·文人苏式面馆</div>
+              <a class="link" target="_blank" href="https://maps.app.goo.gl/3qYamWALw2aF6Rtp7">📍 開地圖</a>
+            </div>
+          </div>
+
+          <div class="row titem" data-tags="蘇州中心廣場">
+            <div class="time">13:00</div>
+            <div class="tCard">
+              <h3>蘇州中心廣場</h3>
+              <div class="small">3f平台可以拍照</div>
+              <a class="link" target="_blank" href="https://maps.app.goo.gl/yDntzGbKoCggf9fX9">📍 開地圖</a>
+            </div>
+          </div>
+
+          <div class="row titem" data-tags="東方之門">
+            <div class="time">14:00</div>
+            <div class="tCard">
+              <h3>東方之門</h3>
+              <div class="small">💎💎💎东方之门可以上楼，从楼下劳斯莱斯旁边的门可以进去坐电梯。东方之门53楼有一家【淡气球高空湖景咖啡厅】
+                在里面可以俯瞰整个金鸡湖，下午茶套餐才人均几十，拍照特出片<br>
+               =============================<br>
+              15:30水上巴士去月光馬頭</div>
+              <a class="link" target="_blank" href="https://maps.app.goo.gl/cE2SAeh3WWnRNwme6">📍 開地圖</a>
+            </div>
+          </div>          
+
+          <div class="row titem" data-tags="月光馬頭">
+            <div class="time">16:00</div>
+            <div class="tCard">
+              <h3>月光馬頭</h3>
+              <div class="small">去誠品，吃晚餐。<br>
+                19:30搭免費水上巴士去望湖格馬頭</div>
+              <a class="link" target="_blank" href="https://maps.app.goo.gl/p9TL1VEk6pcWd1hS8">📍 開地圖</a>
+            </div>
+          </div>
+          
+          <div class="row titem" data-tags="東方之門">
+            <div class="time">20:00</div>
+            <div class="tCard">
+              <h3>東方之門</h3>
+              <div class="small">💎💎💎东方之门可以上楼，从楼下劳斯莱斯旁边的门可以进去坐电梯。东方之门53楼有一家【淡气球高空湖景咖啡厅】
+                在里面可以俯瞰整个金鸡湖，下午茶套餐才人均几十，拍照特出片</div>
+              <a class="link" target="_blank" href="https://maps.app.goo.gl/cE2SAeh3WWnRNwme6">📍 開地圖</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Food -->
+      <div class="section" id="food" data-section="list">
+        <div class="sectionTitle">
+          <h2>美食咖啡</h2><span>就近安排</span>
+        </div>
+
+        <div class="grid">
+          <div class="card item" data-tags="抹茶 甜點 祇園">
+            <div class="cardHead">
+              <div class="title">
+                <h3>祇園抹茶甜點</h3>
+                <div class="meta">
+                  <span class="pill">🍵 抹茶</span>
+                  <span class="pill">⏱️ 30–60 min</span>
+                </div>
+              </div>
+              <div class="actions">
+                <button class="btn" data-toast="把「祇園抹茶」加入清單">加入</button>
+              </div>
+            </div>
+            <p class="desc">下午茶很適合插在行程空檔，避開晚餐尖峰。</p>
+          </div>
+
+          <div class="card item" data-tags="拉麵 晚餐">
+            <div class="cardHead">
+              <div class="title">
+                <h3>拉麵/居酒屋晚餐</h3>
+                <div class="meta">
+                  <span class="pill">🍜 熱食</span>
+                  <span class="pill">🌙 晚上</span>
+                </div>
+              </div>
+              <div class="actions">
+                <button class="btn" data-toast="已加入：晚餐備選">加入</button>
+              </div>
+            </div>
+            <p class="desc">先斗町或河岸附近都不錯，記得先查營業時間。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info -->
+      <div class="section" id="info">
+        <div class="sectionTitle">
+          <h2>交通資訊</h2><span>懶人版</span>
+        </div>
+
+        <div class="grid">
+          <div class="card item" data-tags="交通">
+            <div class="cardHead">
+              <div class="title">
+                <h3>移動策略</h3>
+                <div class="meta">
+                  <span class="pill">🚌 巴士</span>
+                  <span class="pill">🚇 地鐵</span>
+                  <span class="pill">🚆 JR</span>
+                </div>
+              </div>
+            </div>
+            <p class="desc">市區巴士方便但會塞車；長距離用 JR/地鐵更穩。嵐山建議早出。</p>
+          </div>
+
+          <div class="card item" data-tags="緊急">
+            <div class="cardHead">
+              <div class="title">
+                <h3>緊急聯絡</h3>
+                <div class="meta">
+                  <span class="pill">🚓 警察 110</span>
+                  <span class="pill">🚑 救護 119</span>
+                </div>
+              </div>
+            </div>
+            <p class="desc">手機可先存住宿地址（英日皆可），搭車時很好用。</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // Tabs switch
+    const tabs = document.querySelectorAll('.tab');
+    const sections = document.querySelectorAll('.section');
+    tabs.forEach(t => {
+      t.addEventListener('click', () => {
+        tabs.forEach(x => x.classList.remove('active'));
+        sections.forEach(s => s.classList.remove('active'));
+        t.classList.add('active');
+        document.getElementById(t.dataset.tab).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    // Map open
+    document.querySelectorAll('[data-map]').forEach(btn => {
+      btn.addEventListener('click', () => window.open(btn.dataset.map, '_blank', 'noopener,noreferrer'));
+    });
+
+    // Copy
+    const toastEl = document.getElementById('toast');
+    const showToast = (msg) => {
+      toastEl.textContent = msg;
+      toastEl.style.display = 'block';
+      clearTimeout(showToast.t);
+      showToast.t = setTimeout(() => toastEl.style.display = 'none', 1600);
+    };
+
+    document.querySelectorAll('[data-copy]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        try{
+          await navigator.clipboard.writeText(btn.dataset.copy);
+          showToast('已複製：' + btn.dataset.copy);
+        }catch(e){
+          showToast('複製失敗（瀏覽器權限）');
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-toast]').forEach(btn => {
+      btn.addEventListener('click', () => showToast(btn.dataset.toast));
+    });
+
+    // Stay nav
+    document.getElementById('stayNav').addEventListener('click', () => {
+      window.open("https://www.google.com/maps/search/?api=1&query=Hotel%20Mystays%20Kyoto%20Shijo", "_blank", "noopener,noreferrer");
+    });
+
+    // Search filter
+    const q = document.getElementById('q');
+    const count = document.getElementById('count');
+    const allItems = () => document.querySelectorAll('.item, .titem');
+
+    const applyFilter = () => {
+      const v = q.value.trim().toLowerCase();
+      let shown = 0;
+      allItems().forEach(el => {
+        const text = (el.textContent + ' ' + (el.dataset.tags || '')).toLowerCase();
+        const ok = !v || text.includes(v);
+        el.style.display = ok ? '' : 'none';
+        if(ok) shown++;
+      });
+      count.textContent = shown;
+    };
+
+    q.addEventListener('input', applyFilter);
+    // initial count
+    applyFilter();
+  </script>
+</body>
+</html>
