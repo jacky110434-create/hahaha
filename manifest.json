@@ -1,0 +1,20 @@
+{
+  "name": "蘇州 上海 City Guide",        // App 全名（安裝畫面、設定用）
+  "short_name": "蘇州 上海 Guide",        // 主畫面 icon 下的短名
+  "start_url": "./index.html",       // 點 App 從哪一頁開始
+  "display": "standalone",           // 關鍵！沒有瀏覽器 UI
+  "background_color": "#0b1020",     // 啟動畫面背景色
+  "theme_color": "#0b1020",          // 狀態列顏色
+  "icons": [
+    {
+      "src": "icons/icon-192.png",   // App 圖示（小）
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",   // App 圖示（大）
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -2,391 +2,530 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kyoto City Guide</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>蘇州 上海 Guide</title>
+
   <style>
-    :root{
-      --bg:#0b1020;
-      --surface:#0f172a;
-      --card:#111c33;
-      --card2:#0f1a30;
-      --text:#e8eefc;
-      --muted:#a9b6d4;
-      --muted2:#7f8bb0;
-      --line:rgba(255,255,255,.10);
-      --shadow: 0 18px 50px rgba(0,0,0,.45);
-      --shadow2: 0 10px 30px rgba(0,0,0,.35);
-      --radius:18px;
+  :root{
+    /* ===== 園林夕照：宣紙米白 / 水面墨綠 / 夕陽暖金 / 黛瓦青灰 ===== */
+    --bg:#f7f1e6;                      /* 米白宣紙底 */
+    --surface: rgba(255,255,255,.74);
+    --card: rgba(255,255,255,.76);
+    --card2: rgba(255,255,255,.60);
+    --text:#1e2326;                    /* 墨色字 */
+    --muted: rgba(30,35,38,.70);
+    --muted2: rgba(30,35,38,.55);
+    --line: rgba(30,35,38,.12);
+    --shadow: 0 18px 46px rgba(30,35,38,.10);
+    --shadow2: 0 10px 26px rgba(30,35,38,.08);
+    --radius:18px;
 
-      --brand:#7c3aed;   /* 紫 */
-      --brand2:#22c55e;  /* 綠（點綴） */
-      --brand3:#38bdf8;  /* 藍（點綴） */
-      --chip: rgba(255,255,255,.08);
+    --brand:#2f6f66;                   /* 水邊青綠 */
+    --brand2:#d9b47a;                  /* 夕陽淡金 */
+    --brand3:#355a63;                  /* 黛瓦青灰 */
+    --chip: rgba(47,111,102,.10);
 
-      font-family: ui-sans-serif, system-ui, -apple-system, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
-    }
+    font-family:
+      "Noto Serif TC","Noto Serif SC","Songti TC","STSong","Source Han Serif TC",
+      ui-serif, Georgia, "Times New Roman",
+      "Noto Sans TC","PingFang TC","Microsoft JhengHei", sans-serif;
+  }
 
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      background:
-        radial-gradient(1200px 520px at 10% -10%, rgba(124,58,237,.35), transparent 55%),
-        radial-gradient(900px 420px at 90% 10%, rgba(56,189,248,.22), transparent 55%),
-        linear-gradient(180deg, #070a14, var(--bg));
-      color:var(--text);
-    }
+  *{ box-sizing:border-box; }
 
-    .app{
-      max-width: 460px;
-      margin: 0 auto;
-      min-height: 100vh;
-      padding-bottom: 120px;
-    }
+  body{
+    margin:0;
+    background:
+      radial-gradient(980px 560px at 50% -10%, rgba(217,180,122,.36), transparent 62%),
+      radial-gradient(1100px 640px at 18% 32%, rgba(47,111,102,.16), transparent 62%),
+      radial-gradient(980px 560px at 92% 58%, rgba(53,90,99,.10), transparent 62%),
+      linear-gradient(180deg, #fbf6ee, var(--bg));
+    color:var(--text);
+  }
 
-    /* ===== Top hero ===== */
-    .hero{
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      padding: 18px 16px 12px;
-      background:
-        linear-gradient(180deg, rgba(0,0,0,.65), rgba(0,0,0,.10)),
-        radial-gradient(900px 360px at 30% 0%, rgba(124,58,237,.42), transparent 60%),
-        radial-gradient(900px 360px at 90% 20%, rgba(56,189,248,.18), transparent 60%),
-        rgba(15,23,42,.75);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
-    }
+  .app{
+    max-width: 520px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding-bottom: 120px; /* 避免被底部 nav 擋住 */
+  }
 
-    .heroTop{
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-      justify-content:space-between;
-    }
-    .city{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-    }
-    .city h1{
-      margin:0;
-      font-size: 20px;
-      letter-spacing: .3px;
-      line-height: 1.2;
-    }
-    .city p{
-      margin:0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.4;
-    }
+  /* ===== Top hero ===== */
+  .hero{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 18px 16px 12px;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+    /* 圖片 + 宣紙霧面 */
+    background:
+      linear-gradient(180deg, rgba(247,241,230,.92), rgba(247,241,230,.74)),
+      url("images/garden.jpg") center/cover no-repeat;
+  }
 
-    .badge{
-      align-self:flex-start;
-      padding: 7px 10px;
-      border-radius: 999px;
-      background: linear-gradient(120deg, rgba(124,58,237,.25), rgba(56,189,248,.18));
-      border: 1px solid rgba(255,255,255,.14);
-      color: #dbeafe;
-      font-weight: 700;
-      font-size: 12px;
-      white-space: nowrap;
-    }
+  .heroTop{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    justify-content:space-between;
+  }
+  .city{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .city h1{
+    margin:0;
+    font-size: 20px;
+    letter-spacing: .6px;
+    line-height: 1.2;
+  }
+  .city p{
+    margin:0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.4;
+  }
 
-    .search{
-      margin-top: 12px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.12);
-    }
-    .search input{
-      width:100%;
-      border:none;
-      outline:none;
-      background: transparent;
-      color: var(--text);
-      font-size: 14px;
-    }
-    .search .hint{
-      color: var(--muted2);
-      font-size: 13px;
-      white-space: nowrap;
-    }
+  .search{
+    margin-top: 12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(255,255,255,.74);
+    border: 1px solid rgba(30,35,38,.14);
+  }
+  .search input{
+    width:100%;
+    border:none;
+    outline:none;
+    background: transparent;
+    color: var(--text);
+    font-size: 14px;
+  }
+  .search .hint{
+    color: var(--muted2);
+    font-size: 13px;
+    white-space: nowrap;
+  }
 
-    .chips{
-      display:flex;
-      gap:10px;
-      overflow-x:auto;
-      padding: 12px 2px 2px;
-      scrollbar-width:none;
-    }
-    .chips::-webkit-scrollbar{ display:none; }
-    .chip{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: var(--chip);
-      border: 1px solid rgba(255,255,255,.10);
-      color: var(--text);
-      font-size: 13px;
-      white-space: nowrap;
-    }
-    .chip b{ color:#e0e7ff; }
+  /* ===== Tabs ===== */
+  .tabs{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding: 12px 0 6px;
+    scrollbar-width:none;
+  }
+  .tabs::-webkit-scrollbar{ display:none; }
 
-    /* ===== Tabs ===== */
-    .tabs{
-      display:flex;
-      gap:10px;
-      overflow-x:auto;
-      padding: 12px 16px 6px;
-      scrollbar-width:none;
-    }
-    .tabs::-webkit-scrollbar{ display:none; }
-    .tab{
-      cursor:pointer;
-      user-select:none;
-      padding: 10px 12px;
-      border-radius: 999px;
-      font-size: 13px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      color: var(--muted);
-      transition:.15s ease;
-      white-space:nowrap;
-    }
-    .tab.active{
-      color: #0b1020;
-      background: linear-gradient(120deg, rgba(124,58,237,.95), rgba(56,189,248,.85));
-      border-color: transparent;
-      font-weight: 900;
-      box-shadow: 0 12px 30px rgba(124,58,237,.25);
-    }
+  .tab{
+    cursor:pointer;
+    user-select:none;
+    padding: 10px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    border: 1px solid rgba(30,35,38,.12);
+    background: rgba(255,255,255,.56);
+    color: var(--muted);
+    transition:.15s ease;
+    white-space:nowrap;
+  }
+  .tab.active{
+    color: #ffffff;
+    background: linear-gradient(120deg, rgba(53,90,99,.96), rgba(47,111,102,.92));
+    border-color: transparent;
+    font-weight: 900;
+    box-shadow: 0 10px 22px rgba(53,90,99,.20);
+  }
 
-    /* ===== Content ===== */
-    .content{ padding: 10px 16px 0; }
-    .section{ display:none; }
-    .section.active{ display:block; }
+  /* ===== Content ===== */
+  .content{ padding: 10px 16px 0; }
+  .section{ display:none; }
+  .section.active{ display:block; }
 
-    .sectionTitle{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin: 14px 2px 10px;
-    }
-    .sectionTitle h2{
-      margin:0;
-      font-size: 15px;
-      letter-spacing:.2px;
-    }
-    .sectionTitle span{
-      color: var(--muted2);
-      font-size: 12.5px;
-    }
+  .sectionTitle{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin: 14px 2px 10px;
+  }
+  .sectionTitle h2{
+    margin:0;
+    font-size: 15px;
+    letter-spacing:.2px;
+  }
+  .sectionTitle span{
+    color: var(--muted2);
+    font-size: 12.5px;
+  }
 
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
+  .grid{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
 
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: var(--radius);
-      padding: 14px;
-      box-shadow: var(--shadow2);
-    }
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,.84), rgba(255,255,255,.64));
+    border: 1px solid rgba(30,35,38,.12);
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: var(--shadow2);
+  }
 
-    .cardHead{
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-      justify-content:space-between;
-    }
+  .cardHead{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    justify-content:space-between;
+  }
 
-    .title{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      min-width: 0;
-    }
-    .title h3{
-      margin:0;
-      font-size: 15.5px;
-      line-height: 1.25;
-    }
-    .meta{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      color: var(--muted);
-      font-size: 12.8px;
-      line-height:1.4;
-    }
-    .pill{
-      padding: 6px 9px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
-      color: var(--muted);
-      font-size: 12px;
-      white-space: nowrap;
-    }
+  .title{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    min-width: 0;
+  }
+  .title h3{
+    margin:0;
+    font-size: 15.6px;
+    line-height: 1.25;
+  }
 
-    .actions{
-      display:flex;
-      gap:8px;
-      align-items:center;
-    }
-    .btn{
-      cursor:pointer;
-      border:none;
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-weight: 900;
-      color: #0b1020;
-      background: linear-gradient(120deg, rgba(255,255,255,.90), rgba(255,255,255,.72));
-      box-shadow: 0 12px 28px rgba(0,0,0,.25);
-      transition:.15s ease;
-      white-space:nowrap;
-    }
-    .btn:hover{ transform: translateY(-1px); }
-    .btn.secondary{
-      background: rgba(255,255,255,.08);
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,.12);
-      box-shadow:none;
-      font-weight: 800;
-    }
+  .meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    color: var(--muted);
+    font-size: 12.8px;
+    line-height:1.4;
+  }
 
-    .desc{
-      margin: 10px 0 0;
-      color: var(--muted);
-      font-size: 13.2px;
-      line-height: 1.6;
-    }
+  .pill{
+    padding: 6px 9px;
+    border-radius: 999px;
+    background: rgba(47,111,102,.09);
+    border: 1px solid rgba(47,111,102,.20);
+    color: rgba(47,111,102,.92);
+    font-size: 12px;
+    white-space: nowrap;
+  }
 
-    /* ===== Timeline (Day plan) ===== */
-    .timeline{
-      display:flex;
-      flex-direction:column;
-      gap: 12px;
-    }
-    .row{
-      display:grid;
-      grid-template-columns: 64px 1fr;
-      gap: 12px;
-      align-items:start;
-    }
-    .time{
-      font-weight: 900;
-      color: #c7d2fe;
-      font-variant-numeric: tabular-nums;
-      padding-top: 10px;
-    }
-    .tCard{
-      position: relative;
-      border-radius: var(--radius);
-      padding: 14px;
-      border: 1px solid rgba(255,255,255,.10);
-      background:
-        radial-gradient(520px 120px at 20% 0%, rgba(124,58,237,.20), transparent 60%),
-        rgba(255,255,255,.04);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
-    }
-    .tCard::before{
-      content:"";
-      position:absolute;
-      left: 0;
-      top: 0;
-      width: 4px;
-      height: 100%;
-      background: linear-gradient(180deg, var(--brand), var(--brand3));
-      opacity: .85;
-    }
-    .tCard h3{ margin:0 0 6px; font-size: 15.2px; }
-    .tCard .small{ color: var(--muted); font-size: 13px; line-height: 1.5; }
+  .actions{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    flex-wrap: wrap;
+    justify-content:flex-end;
+  }
 
-    .link{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      margin-top: 10px;
-      padding: 9px 12px;
-      border-radius: 999px;
-      background: rgba(56,189,248,.10);
-      border: 1px solid rgba(56,189,248,.20);
-      color:#c7ecff;
-      font-weight: 900;
-      font-size: 13px;
-      text-decoration:none;
-      width: fit-content;
-    }
+  .btn{
+    cursor:pointer;
+    border:none;
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-weight: 900;
+    color: #fff;
+    background: linear-gradient(120deg, rgba(53,90,99,.96), rgba(47,111,102,.92));
+    box-shadow: 0 12px 24px rgba(47,111,102,.18);
+    transition:.15s ease;
+    white-space:nowrap;
+  }
+  .btn:hover{ transform: translateY(-1px); }
 
-    /* ===== Bottom stay bar ===== */
-    .stay{
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 14px;
-      width: min(460px, calc(100% - 28px));
-      border-radius: 22px;
-      padding: 14px;
-      background:
-        radial-gradient(900px 220px at 10% 0%, rgba(255,255,255,.10), transparent 55%),
-        linear-gradient(135deg, rgba(124,58,237,.45), rgba(56,189,248,.18)),
-        rgba(15,23,42,.92);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,.12);
-      box-shadow: var(--shadow);
-      display:flex;
-      gap: 12px;
-      align-items:center;
-      justify-content:space-between;
-    }
-    .stayInfo{ min-width:0; }
-    .stayInfo .label{
-      font-size: 12.5px;
-      color: rgba(255,255,255,.80);
-      margin-bottom: 4px;
-    }
-    .stayInfo .name{
-      font-weight: 950;
-      letter-spacing:.2px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .stayInfo .addr{
-      margin-top: 4px;
-      color: rgba(255,255,255,.75);
-      font-size: 12.5px;
-      white-space: nowrap;
-      overflow:hidden;
-      text-overflow: ellipsis;
-    }
+  .btn.secondary{
+    background: rgba(255,255,255,.62);
+    color: rgba(30,35,38,.90);
+    border: 1px solid rgba(30,35,38,.14);
+    box-shadow:none;
+    font-weight: 800;
+  }
+  .btn.ghost{
+    background: rgba(47,111,102,.10);
+    color: rgba(47,111,102,.95);
+    border: 1px solid rgba(47,111,102,.20);
+    box-shadow:none;
+    font-weight: 900;
+  }
 
-    .toast{
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 92px;
-      background: rgba(0,0,0,.65);
-      border: 1px solid rgba(255,255,255,.12);
-      color: #fff;
-      padding: 10px 12px;
-      border-radius: 999px;
-      font-size: 12.5px;
-      display:none;
-    }
+  .desc{
+    margin: 10px 0 0;
+    color: var(--muted);
+    font-size: 13.2px;
+    line-height: 1.6;
+  }
+
+  /* ===== Timeline (Day plan) ===== */
+  .timeline{
+    display:flex;
+    flex-direction:column;
+    gap: 12px;
+  }
+  .row{
+    display:grid;
+    grid-template-columns: 64px 1fr;
+    gap: 12px;
+    align-items:start;
+  }
+
+  .time{
+    font-weight: 900;
+    color: rgba(47,111,102,.95);
+    font-variant-numeric: tabular-nums;
+    padding-top: 10px;
+  }
+
+  .tCard{
+    position: relative;
+    border-radius: var(--radius);
+    padding: 14px;
+    border: 1px solid rgba(30,35,38,.12);
+    background:
+      radial-gradient(560px 160px at 22% 0%, rgba(217,180,122,.14), transparent 62%),
+      linear-gradient(180deg, rgba(255,255,255,.82), rgba(255,255,255,.62));
+    box-shadow: var(--shadow2);
+    overflow:hidden;
+  }
+  /* 只在「有看詳情」的行程卡片上，把文字先藏起來 */
+  .tCard.compact .small{
+    display:none;
+  }
+
+  .tCard::before{
+    content:"";
+    position:absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(47,111,102,.95), rgba(217,180,122,.72));
+    opacity: .92;
+  }
+
+  .tCard h3{ margin:0 0 6px; font-size: 15.2px; }
+  .tCard .small{ color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+  .tActions{
+    display:flex;
+    gap: 8px;
+    align-items:center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .link{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding: 9px 12px;
+    border-radius: 999px;
+    background: rgba(47,111,102,.10);
+    border: 1px solid rgba(47,111,102,.22);
+    color: rgba(47,111,102,.95);
+    font-weight: 900;
+    font-size: 13px;
+    text-decoration:none;
+    width: fit-content;
+  }
+
+  .toast{
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(92px + env(safe-area-inset-bottom));
+    background: rgba(30,35,38,.76);
+    border: 1px solid rgba(255,255,255,.18);
+    color: #fff;
+    padding: 10px 12px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    display:none;
+    z-index: 90;
+  }
+
+  /* ===== Card image toggle ===== */
+  .imgBox{
+    display: none;
+    margin-top: 10px;
+  }
+  .card.show-img .imgBox{ display: block; }
+  .tCard.show-img .imgBox{ display: block; }
+
+  .imgBox img{
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+    border: 1px solid rgba(30,35,38,.14);
+  }
+
+  /* ===== Explore segmented ===== */
+  .seg{
+    display:flex;
+    gap:8px;
+    padding: 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.62);
+    border: 1px solid rgba(30,35,38,.12);
+    overflow:auto;
+    scrollbar-width:none;
+  }
+  .seg::-webkit-scrollbar{ display:none; }
+  .segBtn{
+    border:0;
+    cursor:pointer;
+    padding: 10px 12px;
+    border-radius: 999px;
+    background: transparent;
+    color: rgba(30,35,38,.65);
+    font-weight: 900;
+    white-space:nowrap;
+  }
+  .segBtn.active{
+    background: linear-gradient(120deg, rgba(53,90,99,.96), rgba(47,111,102,.92));
+    color:#fff;
+    box-shadow: 0 10px 20px rgba(47,111,102,.18);
+  }
+
+  /* ===== Bottom Nav ===== */
+  .bottomNav{
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: min(520px, 100%);
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+    background: rgba(247,241,230,.92);
+    border-top: 1px solid rgba(30,35,38,.12);
+    backdrop-filter: blur(10px);
+    display:flex;
+    justify-content:space-between;
+    gap: 8px;
+    z-index: 80;
+  }
+  .navBtn{
+    flex:1;
+    border: 0;
+    background: transparent;
+    padding: 8px 6px;
+    border-radius: 14px;
+    color: rgba(30,35,38,.65);
+    font-weight: 900;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap: 4px;
+    cursor:pointer;
+  }
+  .navBtn span{ font-size: 12px; }
+  .navBtn.active{
+    background: rgba(47,111,102,.10);
+    color: rgba(47,111,102,.95);
+    border: 1px solid rgba(47,111,102,.20);
+  }
+
+  /* ===== Modal ===== */
+  .modal{ display:none; position:fixed; inset:0; z-index:100; }
+  .modal.show{ display:block; }
+  .modalBackdrop{ position:absolute; inset:0; background: rgba(0,0,0,.35); }
+  .modalSheet{
+    position:absolute;
+    left:50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: min(520px, 100%);
+    max-height: 82vh;
+    overflow:auto;
+    background: rgba(247,241,230,.96);
+    border: 1px solid rgba(30,35,38,.12);
+    border-radius: 22px 22px 0 0;
+    box-shadow: 0 18px 46px rgba(0,0,0,.18);
+    padding: 16px 16px calc(18px + env(safe-area-inset-bottom));
+  }
+  .modalClose{
+    position: sticky;
+    top: 0;
+    float:right;
+    border:0;
+    background: rgba(255,255,255,.70);
+    border: 1px solid rgba(30,35,38,.12);
+    border-radius: 999px;
+    padding: 8px 10px;
+    cursor:pointer;
+  }
+  .modalBody h2{ margin: 8px 0 6px; }
+  .modalBody .sub{ color: var(--muted); margin-bottom: 10px; font-size: 13px; }
+  .modalBody .box{
+    background: rgba(255,255,255,.62);
+    border: 1px solid rgba(30,35,38,.12);
+    border-radius: 16px;
+    padding: 12px;
+    line-height: 1.7;
+    color: rgba(30,35,38,.78);
+    font-size: 13.5px;
+  }
+
+  /* ===== Bill ===== */
+  .billGrid{
+    display:grid;
+    gap: 12px;
+  }
+  .field{
+    display:grid;
+    gap: 8px;
+  }
+  .field label{
+    font-weight: 900;
+    font-size: 13px;
+    color: rgba(30,35,38,.70);
+  }
+  .input, .select{
+    width: 100%;
+    padding: 12px 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(30,35,38,.14);
+    background: rgba(255,255,255,.68);
+    outline: none;
+    font-size: 14px;
+    color: var(--text);
+  }
+  .chipRow{
+    display:flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .chipBtn{
+    border: 1px solid rgba(30,35,38,.14);
+    background: rgba(255,255,255,.62);
+    color: rgba(30,35,38,.78);
+    padding: 10px 12px;
+    border-radius: 999px;
+    cursor:pointer;
+    font-weight: 900;
+  }
+  .chipBtn.active{
+    background: rgba(47,111,102,.12);
+    border-color: rgba(47,111,102,.22);
+    color: rgba(47,111,102,.95);
+  }
+  .billTable{
+    display:grid;
+    gap: 10px;
+  }
+  .billRow{
+    display:flex;
+    justify-content:space-between;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 16px;
+    background: rgba(255,255,255,.62);
+    border: 1px solid rgba(30,35,38,.12);
+  }
+  .mono{ font-variant-numeric: tabular-nums; }
   </style>
 </head>
 
@@ -398,25 +537,21 @@
           <h1>蘇州、上海 City Guide</h1>
           <p>7 天 6 夜</p>
         </div>
-        <div class="badge">離線友善 </div>
       </div>
 
       <div class="search">
         <span class="hint">🔎</span>
-        <input id="q" placeholder="搜尋景點 / 美食 / 區域" />
+        <input id="q" placeholder="搜尋景點 / 美食 / 區域（只搜尋目前頁面）" />
         <span class="hint" id="count">0</span>
       </div>
 
-    <div class="tabs" id="tabs">
-      <div class="tab active" data-tab="day1">Day 1</div>
-      <div class="tab" data-tab="day2">Day 2</div>
-      <div class="tab" data-tab="day3">Day 3</div>
-      <div class="tab" data-tab="day4">Day 4</div>
-      <div class="tab" data-tab="day5">Day 5</div>
-      <div class="tab" data-tab="day5">Day 6</div>
-      <div class="tab" data-tab="day5">Day 7</div>
-      <div class="tab" data-tab="food">美食咖啡</div>
-      <div class="tab" data-tab="info">交通資訊</div>
+      <!-- Day Tabs：只在「行程」頁時使用 -->
+      <div class="tabs" id="tabs">
+        <div class="tab active" data-tab="day1">Day 1</div>
+        <div class="tab" data-tab="day2">Day 2</div>
+        <div class="tab" data-tab="day3">Day 3</div>
+        <div class="tab" data-tab="day4">Day 4</div>
+      </div>
     </div>
 
     <div class="content">
@@ -424,82 +559,179 @@
       <!-- Day 1 -->
       <div class="section active" id="day1" data-section="day">
         <div class="sectionTitle">
-          <h2>Day 1 </h2><span>搭搭小船</span>
+          <h2>Day 1</h2><span>搭搭小船</span>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="cardHead">
+            <div class="title">
+              <h3>DAY 1 ROUTE</h3>
+            </div>
+            <div class="actions">
+              <button class="btn" data-route="day1">開啟 Google Maps 路線</button>
+            </div>
+          </div>
         </div>
 
         <div class="timeline">
           <div class="row titem" data-tags="桃園機場">
             <div class="time">11:30</div>
-            <div class="tCard">
+            <div class="tCard compact">
               <h3>桃園機場</h3>
-              <a class="link" target="_blank" href="https://maps.app.goo.gl/ffBZdN48gvi625VE6">📍 開地圖</a>
+              <div class="tActions">
+                <a class="link" target="_blank" href="https://maps.app.goo.gl/ffBZdN48gvi625VE6">📍 開地圖</a>
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
+              <div class="small">哈哈哈
+              </div>
+              <div class="imgBox">
+                <img src="images/去程.jpg" alt="桃園機場">
+              </div>              
             </div>
           </div>
 
-          <div class="row titem" data-tags="上海機場">
+          <div class="row titem" data-tags="上海浦東機場">
             <div class="time">13:30</div>
-            <div class="tCard">
-              <h3>上海機場</h3>
-              <a class="link" target="_blank" href="https://maps.app.goo.gl/6V87PkyfJD2oxYpM7">📍 開地圖</a>
+            <div class="tCard compact">
+              <h3>上海浦東機場</h3>
+              <div class="small">30分鐘左右出海關，搭市域鐵到上海虹橋站，約40分鐘。灰色機場線</div>
+              <div class="tActions">
+                <a class="link" target="_blank" href="https://maps.app.goo.gl/6V87PkyfJD2oxYpM7">📍 開地圖</a>
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
+              <div class="imgBox">
+                <img src="images/去程.jpg" alt="上海浦東機場">
+              </div>              
             </div>
           </div>
-        
-          <div class="row titem" data-tags="全季酒店">
-            <div class="time">14:30</div>
-            <div class="tCard">
-              <h3>全季酒店</h3>
-              <a class="link" target="_blank" href="https://maps.app.goo.gl/MkJ7Qdtfb6UZmPqL7">📍 開地圖</a>
+
+          <div class="row titem" data-tags="上海虹橋站">
+            <div class="time">14:40</div>
+            <div class="tCard compact">
+              <h3>上海虹橋站</h3>
+              <div class="small">搭15:04→15:32 或 15:16→15:50 兩班合適。半小時左右到蘇州站。</div>
+              <div class="tActions">
+                <a class="link" target="_blank" href="https://maps.app.goo.gl/a2X3Ar1SJ3azTeTU8">📍 開地圖</a>
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
+              <div class="imgBox">
+                <img src="images/火車時刻表1.jpg" alt="上海虹桥">
+              </div>              
+            </div>
+          </div>
+
+          <div class="row titem" data-tags="蘇州站">
+            <div class="time">15:50</div>
+            <div class="tCard compact">
+              <h3>蘇州站</h3>
+              <div class="tActions">
+                <a class="link" target="_blank" href="https://maps.app.goo.gl/g6jK5rY8tJ9MyHo87">📍 開地圖</a>
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
+              <div class="imgBox">
+                <img src="images/路線圖.jpg" alt="蘇州站">
+              </div>
+            </div>
+          </div>
+
+          <div class="row titem" data-tags="安佘飯店">
+            <div class="time">16:00</div>
+            <div class="tCard compact">
+              <h3>安佘飯店</h3>
+
+              <div class="tActions">
+                <a class="link" target="_blank" href="https://maps.app.goo.gl/TKMLiMcWR57okHoz9">📍 開地圖</a>
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
+
+              <div class="small">哈哈哈
+              </div>
+
+              <div class="imgBox">
+                <img src="images/安佘飯店.jpg" alt="安佘飯店">
+              </div>
             </div>
           </div>
 
           <div class="row titem" data-tags="虎丘">
-            <div class="time">15:30</div>
-            <div class="tCard">
+            <div class="time">16:30</div>
+            <div class="tCard compact">
               <h3>虎丘</h3>
+
+              <div class="tActions">
+                <a class="link" target="_blank" href="https://maps.app.goo.gl/5MuTyJYDuZqNZ3r48">📍 開地圖</a>
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
+
               <div class="small">門票70r<br>⏰ 时间：07:30-17:30（17:00停止入场）<br>
-                  推荐路线(全程约2.5h)<br>
-                  南门➠海涌桥➠拥翠山庄➠红枫林➠冷香阁➠第三泉➠剑池➠雪浪亭➠虎丘塔➠一榭园（北门）➠百步趋➠望苏台➠养鹤涧➠万景山庄➠南门<br>
-                   17:30 最後一班船到山塘街。</div>
-              <a class="link" target="_blank" href="https://maps.app.goo.gl/5MuTyJYDuZqNZ3r48">📍 開地圖</a>
+                推荐路线(全程约2.5h)<br>
+                南门➠海涌桥➠拥翠山庄➠红枫林➠冷香阁➠第三泉➠剑池➠雪浪亭➠虎丘塔➠一榭园（北门）➠百步趋➠望苏台➠养鹤涧➠万景山庄➠南门<br>
+                17:30 最後一班船到山塘街。
+              </div>
+
+              <!-- ✅ 圖片保留在 DOM（卡片上不顯示），給 modal 用 -->
+              <div class="imgBox">
+                <img src="images/虎丘.jpg" alt="虎丘">
+              </div>
             </div>
           </div>
 
-          <div class="row titem" data-tags="七里山塘">
+
+          <div class="row titem" data-tags="七里山塘 山塘街">
             <div class="time">18:00</div>
-            <div class="tCard">
+            <div class="tCard compact">
               <h3>七里山塘</h3>
+              <div class="tActions">
+                <a class="link" target="_blank" href="https://maps.app.goo.gl/HyrmGWTFFKN7ekiq7">📍 開地圖</a>
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
               <div class="small">游览顺序:<br>
                   新民桥以北→山塘景区→阊门→民国风情街<br>
                   √新民桥以北:以各种小吃居多，一直走可以到虎丘<br>
-                  √山塘景区打卡点:新民桥；商会博物馆；通贵桥；<br>白居易纪念苑；海市山塘(很多网红小吃)<br>
+                  √山塘景区打卡点:新民桥；商会博物馆；通贵桥；白居易纪念苑；海市山塘(很多网红小吃)<br>
                   √阊门:七里山塘的起点<br>
-                  √民国风情街:民国特色的建筑，很出片兰游船<br>
-                  =============================<br>
+                  √民国风情街:民国特色的建筑，很出片<br>
+                  ============================================<br>
                   游船🚢路線:<br>
-                  路线1山塘街古戏台码头→野芳浜→下塘码头<br>
-                  全程30min,船票$50 售票时间:8:00 -20:50<br>
-                  =============================<br>
+                  路线1 山塘街古戏台码头→野芳浜→下塘码头（30min）船票50，8:00-20:50<br>
+                  ============================================<br>
                   美食:<br>
-                  姑蘇船宴、熊貓蘇式火鍋、茉小茶、張小蟹、熊貓蘇式豆花
-                  、居易茶酒樓、江南蟹殼黃、益昌福包子、萬福義糕糰、裕興記、鑫震源
-                  </div>
-              <a class="link" target="_blank" href="https://maps.app.goo.gl/HyrmGWTFFKN7ekiq7">📍 開地圖</a>
+                  姑蘇船宴、熊貓蘇式火鍋、茉小茶、張小蟹、熊貓蘇式豆花、居易茶酒樓、江南蟹殼黃、益昌福包子、萬福義糕糰、裕興記、鑫震源</div>
+              <div class="imgBox">
+                <img src="images/七里山塘.jpg" alt="七里山塘">
+              </div>
             </div>
           </div>
+
         </div>
       </div>
 
       <!-- Day 2 -->
       <div class="section" id="day2" data-section="day">
         <div class="sectionTitle">
-          <h2>Day 2 </h2><span>園、拍照｜步行多</span>
+          <h2>Day 2</h2><span>園、拍照｜步行多</span>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="cardHead">
+            <div class="title">
+              <h3>DAY 2 ROUTE</h3>
+            </div>
+            <div class="actions">
+              <button class="btn" data-route="day2">開啟 Google Maps 路線</button>
+            </div>
+          </div>
         </div>
 
         <div class="timeline">
           <div class="row titem" data-tags="拙政園">
             <div class="time">07:30</div>
-            <div class="tCard">
+            <div class="tCard compact">
               <h3>拙政園</h3>
+              <div class="tActions">
+                <a class="link" target="_blank" href="https://maps.app.goo.gl/pex5etrQuqQ4KSTv5">📍 開地圖</a>
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
               <div class="small">門票提早1周買70r<br>推薦路線(2-3h)<br>
               ➡️拙政园入口（东南1门）➡️ 兰雪堂➡️ 听雨轩➡️
               玲珑馆➡️海棠春坞➡️远香堂➡️ 倚玉轩➡️ 小沧浪➡️ 
@@ -507,27 +739,39 @@
               塔影亭➡️ 留听阁➡️ 与谁同坐轩➡️ 倒影楼➡️ 见山楼➡️ 
               雪香云蔚亭➡️ 待霜亭➡️ 梧竹幽居➡️ 秫香馆➡️ 天泉亭➡️出口
               </div>
-              <a class="link" target="_blank" href="https://maps.app.goo.gl/pex5etrQuqQ4KSTv5">📍 開地圖</a>
+              <div class="imgBox">
+                <img src="images/拙政園.jpg" alt="拙政園">
+              </div>
             </div>
           </div>
 
           <div class="row titem" data-tags="蘇州博物館">
             <div class="time">10:30</div>
-            <div class="tCard">
+            <div class="tCard compact">
               <h3>蘇州博物館</h3>
-              <div class="small">不須買票但先預約<br>🧩游览路线：(2-3h)<br>主入口→庭院→中央大厅（左拐）
+              <div class="tActions">
+                <a class="link" target="_blank" href="https://maps.app.goo.gl/5tNcRghhyPiSYhQJ6">📍 開地圖</a>
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
+              <div class="small">不須買票但先預约<br>🧩游览路线：(2-3h)<br>主入口→庭院→中央大厅（左拐）
                 →西廊→吴地遗珍→吴塔国宝→吴中风雅→草堂墨戏→主庭院
                 →现代艺术厅→艺术品商店→出口（忠王府）<br>
-                =============================<br>
+                  ============================================<br>
               🍜吃饭:翁同阁面馆(17r)</div>
-              <a class="link" target="_blank" href="https://maps.app.goo.gl/5tNcRghhyPiSYhQJ6">📍 開地圖</a>
+              <div class="imgBox">
+                <img src="images/蘇州博物館.jpg" alt="蘇州博物館">
+              </div>
             </div>
           </div>
 
           <div class="row titem" data-tags="獅子林">
             <div class="time">14:00</div>
-            <div class="tCard">
+            <div class="tCard compact">
               <h3>獅子林</h3>
+              <div class="tActions">
+                <a class="link" target="_blank" href="https://maps.app.goo.gl/9fnAmMu4BMyPRATR6">📍 開地圖</a>
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
               <div class="small">門票40r<br>
                 游玩路线:(17:00)關園<br>
                 入口→门厅→祠堂→燕誉堂→小方厅→打盹亭→
@@ -535,185 +779,858 @@
                 真趣亭→暗香疏影楼→石舫→飞瀑亭→湖心亭→问梅阁→
                 双香仙馆→扇亭→文天祥碑亭→御碑亭→修竹阁→水假山
                 →旱假山→卧云室→立雪堂→出口<br>
-                =============================<br>
+                  ============================================<br>
                 📸 拍照攻略(迷宫打卡指南)<br>
                 ✅ 「九狮峰」仰拍：清晨光线最适合<br>
                 ✅ 「假山迷宫」俯拍：站高处的亭子往下拍<br>
                 ✅ 「燕誉堂」框景：透过月洞门拍白紫藤<br>
                 ✅ 「石舫」倒影：下午四点水面最平静<br>
                 ✅ 「修竹阁」窗景：竹影婆娑超有禅意</div>
-              <a class="link" target="_blank" href="https://maps.app.goo.gl/9fnAmMu4BMyPRATR6">📍 開地圖</a>
+              <div class="imgBox">
+                <img src="images/獅子林.jpg" alt="獅子林">
+              </div>
             </div>
           </div>
 
-          <div class="row titem" data-tags="江平路">
+          <div class="row titem" data-tags="平江路">
             <div class="time">16:30</div>
-            <div class="tCard">
-              <h3>江平路</h3>
+            <div class="tCard compact">
+              <h3>平江路</h3>
+              <div class="tActions">
+                <a class="link" target="_blank" href="https://maps.app.goo.gl/BA6d1aHKyrb7g8o5A">📍 開地圖</a>
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
               <div class="small">慢慢走走，吃晚餐、搭小船。<br>
               美食路线：<br>
               苏香记➡️梅月轩➡️鑫震源➡️茉香枕河➡️拙林里➡️沈万三➡️余丰堂➡️百年福</div>
-              <a class="link" target="_blank" href="https://maps.app.goo.gl/BA6d1aHKyrb7g8o5A">📍 開地圖</a>
+              <div class="imgBox">
+                <img src="images/平江路.jpg" alt="平江路">
+              </div>
             </div>
           </div>
 
           <div class="row titem" data-tags="觀前街">
             <div class="time">19:00</div>
-            <div class="tCard">
+            <div class="tCard compact">
               <h3>觀前街</h3>
+              <div class="tActions">
+                <a class="link" target="_blank" href="https://maps.app.goo.gl/Gi1SimEaLtm8bcUK8">📍 開地圖</a>
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
               <div class="small">如果時間夠就去，或者回去休息。</div>
-              <a class="link" target="_blank" href="https://maps.app.goo.gl/Gi1SimEaLtm8bcUK8">📍 開地圖</a>
+              <div class="imgBox">
+                <img src="images/觀前街.jpg" alt="觀前街">
+              </div>
             </div>
           </div>
-
         </div>
       </div>
 
       <!-- Day 3 -->
       <div class="section" id="day3" data-section="day">
         <div class="sectionTitle">
-          <h2>Day 3 </h2><span>蘇州市區</span>
+          <h2>Day 3</h2><span>蘇州市區</span>
+        </div>
+
+        <div class="card" style="margin-bottom:12px;">
+          <div class="cardHead">
+            <div class="title">
+              <h3>DAY 3 ROUTE</h3>
+            </div>
+            <div class="actions">
+              <button class="btn" data-route="day3">開啟 Google Maps 路線</button>
+            </div>
+          </div>
         </div>
 
         <div class="timeline">
           <div class="row titem" data-tags="十全街">
             <div class="time">10:00</div>
-            <div class="tCard">
+            <div class="tCard compact">
               <h3>十全街</h3>
+              <div class="tActions">
+                <a class="link" target="_blank" href="https://maps.app.goo.gl/kNppEuMVbhC6P7Lx5">📍 開地圖</a>
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
               <div class="small">吃東西的</div>
-              <a class="link" target="_blank" href="https://maps.app.goo.gl/kNppEuMVbhC6P7Lx5">📍 開地圖</a>
+              <div class="imgBox">
+                <img src="images/十全街.jpg" alt="十全街">
+              </div>
             </div>
           </div>
 
           <div class="row titem" data-tags="網師園">
             <div class="time">11:00</div>
-            <div class="tCard">
+            <div class="tCard compact">
               <h3>網師園</h3>
+              <div class="tActions">
+                <a class="link" target="_blank" href="https://maps.app.goo.gl/3qYamWALw2aF6Rtp7">📍 開地圖</a>
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
               <div class="small">📝游玩路线(30r)：<br>
                 门厅→轿厅→万卷堂→撷秀楼→五峰书屋→集虚斋→竹外一枝轩→看松读画轩→
                 殿春簃→冷泉亭→月到风来亭→濯缨水阁→露华馆→蹈和馆→琴室→小山丛桂轩→引静桥→梯云室→瓷器馆→出口<br>
-                 =============================<br>
+                  ============================================<br>
               🍜苏州汤面推荐：姑苏桥·文人苏式面馆</div>
-              <a class="link" target="_blank" href="https://maps.app.goo.gl/3qYamWALw2aF6Rtp7">📍 開地圖</a>
+              <div class="imgBox">
+                <img src="images/網師園.jpg" alt="網師園">
+              </div>
             </div>
           </div>
 
           <div class="row titem" data-tags="蘇州中心廣場">
             <div class="time">13:00</div>
-            <div class="tCard">
+            <div class="tCard compact">
               <h3>蘇州中心廣場</h3>
-              <div class="small">3f平台可以拍照</div>
-              <a class="link" target="_blank" href="https://maps.app.goo.gl/yDntzGbKoCggf9fX9">📍 開地圖</a>
+              <div class="tActions">
+                <a class="link" target="_blank" href="https://maps.app.goo.gl/yDntzGbKoCggf9fX9">📍 開地圖</a>
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
+              <div class="small">3F 平台可以拍照</div>
+              <div class="imgBox">
+                <img src="images/蘇州中心廣場.jpg" alt="蘇州中心廣場">
+              </div>
             </div>
           </div>
 
           <div class="row titem" data-tags="東方之門">
             <div class="time">14:00</div>
-            <div class="tCard">
+            <div class="tCard compact">
               <h3>東方之門</h3>
+              <div class="tActions">
+                <a class="link" target="_blank" href="https://maps.app.goo.gl/cE2SAeh3WWnRNwme6">📍 開地圖</a>
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
               <div class="small">💎💎💎东方之门可以上楼，从楼下劳斯莱斯旁边的门可以进去坐电梯。东方之门53楼有一家【淡气球高空湖景咖啡厅】
                 在里面可以俯瞰整个金鸡湖，下午茶套餐才人均几十，拍照特出片<br>
-               =============================<br>
+                  ============================================<br>
               15:30水上巴士去月光馬頭</div>
-              <a class="link" target="_blank" href="https://maps.app.goo.gl/cE2SAeh3WWnRNwme6">📍 開地圖</a>
+              <div class="imgBox">
+                <img src="images/東方之門.jpg" alt="東方之門">
+              </div>
             </div>
-          </div>          
+          </div>
 
           <div class="row titem" data-tags="月光馬頭">
             <div class="time">16:00</div>
-            <div class="tCard">
+            <div class="tCard compact">
               <h3>月光馬頭</h3>
+              <div class="tActions">
+                <a class="link" target="_blank" href="https://maps.app.goo.gl/p9TL1VEk6pcWd1hS8">📍 開地圖</a>
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
               <div class="small">去誠品，吃晚餐。<br>
                 19:30搭免費水上巴士去望湖格馬頭</div>
-              <a class="link" target="_blank" href="https://maps.app.goo.gl/p9TL1VEk6pcWd1hS8">📍 開地圖</a>
-            </div>
-          </div>
-          
-          <div class="row titem" data-tags="東方之門">
-            <div class="time">20:00</div>
-            <div class="tCard">
-              <h3>東方之門</h3>
-              <div class="small">💎💎💎东方之门可以上楼，从楼下劳斯莱斯旁边的门可以进去坐电梯。东方之门53楼有一家【淡气球高空湖景咖啡厅】
-                在里面可以俯瞰整个金鸡湖，下午茶套餐才人均几十，拍照特出片</div>
-              <a class="link" target="_blank" href="https://maps.app.goo.gl/cE2SAeh3WWnRNwme6">📍 開地圖</a>
+              <div class="imgBox">
+                <img src="images/月光馬頭.jpg" alt="月光馬頭">
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Food -->
-      <div class="section" id="food" data-section="list">
+      <!-- Day 4（先給你骨架，之後你把內容貼進 timeline） -->
+      <div class="section" id="day4" data-section="day">
         <div class="sectionTitle">
-          <h2>美食咖啡</h2><span>就近安排</span>
+          <h2>Day 4</h2><span>（待補）</span>
         </div>
 
-        <div class="grid">
-          <div class="card item" data-tags="抹茶 甜點 祇園">
+        <div class="card">
+          <div class="cardHead">
+            <div class="title">
+              <h3>DAY 4 ROUTE</h3>
+            </div>
+            <div class="actions">
+              <button class="btn" data-route="day4">開啟 Google Maps 路線</button>
+            </div>
+          </div>
+          <p class="desc">把 Day 4 的行程照 Day1~Day3 的格式加入後，路線會自動生效。</p>
+        </div>
+
+        <div class="timeline" style="margin-top:12px;">
+          <!-- 你之後把 Day4 的 row 貼在這裡 -->
+        </div>
+      </div>
+
+      <!-- Explore（用你的美食資料 + 分類篩選） -->
+      <div class="section" id="food" data-section="list">
+        <div class="sectionTitle">
+          <h2>探索</h2><span>美食清單</span>
+        </div>
+
+        <div class="seg" id="foodSeg">
+          <button class="segBtn active" data-foodfilter="all">全部</button>
+          <button class="segBtn" data-foodfilter="山塘街">山塘街</button>
+          <button class="segBtn" data-foodfilter="平江路">平江路</button>
+          <button class="segBtn" data-foodfilter="觀前">觀前街</button>
+          <button class="segBtn" data-foodfilter="十全街">十全街</button>
+          <button class="segBtn" data-foodfilter="other">其他</button>
+        </div>
+
+        <div class="grid" style="margin-top:12px;" id="foodGrid">
+          <!-- 你的 Food 卡片：原樣保留，只補上 data-area 讓分類好用 -->
+          <div class="card item" data-tags="山塘街｜姑蘇船宴">
             <div class="cardHead">
               <div class="title">
-                <h3>祇園抹茶甜點</h3>
-                <div class="meta">
-                  <span class="pill">🍵 抹茶</span>
-                  <span class="pill">⏱️ 30–60 min</span>
-                </div>
+                <h3>山塘街｜姑蘇船宴</h3>
               </div>
               <div class="actions">
-                <button class="btn" data-toast="把「祇園抹茶」加入清單">加入</button>
+                <button class="btn secondary" data-img="images/姑蘇船宴.jpg">看圖片</button>
               </div>
             </div>
-            <p class="desc">下午茶很適合插在行程空檔，避開晚餐尖峰。</p>
+            <p class="desc">⭐️姑苏名菜，姑苏松鼠鱼，桂花红烧肉，蟹粉豆腐，荠菜银鱼羹，白玉方糕。上菜很快，可能是预制菜，但是松鼠桂鱼还不错酸甜口的，红烧肉烂烂的很下饭，但是吃多了有点腻，蟹粉豆腐拌饭好吃，银鱼羹个人感觉有点腥，方糕一般，个人不太喜欢有点硬。</p>
+
+            <div class="imgBox">
+              <img src="images/姑蘇船宴.jpg">
+            </div>
           </div>
 
-          <div class="card item" data-tags="拉麵 晚餐">
+          <div class="card item" data-tags="山塘街｜熊猫苏式火锅">
             <div class="cardHead">
               <div class="title">
-                <h3>拉麵/居酒屋晚餐</h3>
+                <h3>山塘街｜熊猫苏式火锅</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/蘇式熊貓火鍋.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️进门满满的熊猫主题简直萌化了我的心啊~番茄锅底不管涮什么都好吃！苏式盖碗九宫格荤素搭配，满满仪式感，甜品没想到也精致到了极致！</p>
+
+            <div class="imgBox">
+              <img src="images/蘇式熊貓火鍋.jpg">
+            </div>
+          </div>
+
+          <div class="card item" data-tags="山塘街｜張小蟹">
+            <div class="cardHead">
+              <div class="title">
+                <h3>山塘街｜張小蟹</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/張小蟹.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️江苏老字号！超大只醉蟹醉虾😍😍满黄的🦀，淡淡的酒香，加上香甜的卤香，肉质饱满到仿佛能咬出汁来🤤！</p>
+
+            <div class="imgBox">
+              <img src="images/張小蟹.jpg">
+            </div>
+          </div>
+
+         <div class="card item" data-tags="山塘街｜熊貓蘇式豆花">
+            <div class="cardHead">
+              <div class="title">
+                <h3>山塘街｜熊貓蘇式豆花</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/熊貓蘇式豆花.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️芋泥麻薯豆花✅口感糯叽叽的，绵密香滑，不是很甜的那种👍🏻<br>⭐️茉莉酒酿豆花✅上面是新鲜的茉莉花花苞，酒酿夹着茉莉花的味道，豆花qq弹弹的~太好吃了😋😋</p>
+
+            <div class="imgBox">
+              <img src="images/熊貓蘇式豆花.jpg">
+            </div>
+          </div>
+
+        <div class="card item" data-tags="山塘街｜白居易茶樓">
+            <div class="cardHead">
+              <div class="title">
+                <h3>山塘街｜白居易茶樓</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/白居易茶樓.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️特色的灯笼🏮还有雅致的中式装修风格，来苏州怎能不品正宗苏帮菜，外酥里嫩，酸甜适中的松鼠桂鱼🐟每一道菜的味道都恰到好处~😋😋</p>
+
+            <div class="imgBox">
+              <img src="images/白居易茶樓.jpg">
+            </div>
+          </div>
+
+        <div class="card item" data-tags="山塘街｜江南蟹殼黃">
+            <div class="cardHead">
+              <div class="title">
+                <h3>山塘街｜江南蟹殼黃</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/江南蟹殼黃.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️10块钱7个！可以拼口味！有6种口味，分别是豆沙，黑芝麻，梅干菜，葱油，椒盐和萝卜丝。超级推荐3个口味：葱油，椒盐，萝卜丝！</p>
+            <div class="imgBox">
+              <img src="images/江南蟹殼黃.jpg">
+            </div>
+          </div>
+
+        <div class="card item" data-tags="山塘街｜萬福義糕糰">
+            <div class="cardHead">
+              <div class="title">
+                <h3>山塘街｜萬福義糕糰</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/萬福義糕糰.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️万福兴，一家有百年历史的老字号糕团店，这里的糕团种类繁多，每一款都有其独特的风味。人均：15元/人📍位置：山塘街303号</p>
+            <div class="imgBox">
+              <img src="images/萬福義糕糰.jpg">
+            </div>
+          </div>          
+
+        <div class="card item" data-tags="山塘街｜鑫震源">
+            <div class="cardHead">
+              <div class="title">
+                <h3>山塘街｜鑫震源</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/鑫震源.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️只能说简直了，太好吃了，尤其蟹黄的，他家烧卖也好吃，还要了份虾籽馄饨，也很好吃😋在我们点了两份生煎一份馄饨烧卖的情况下，又额外单独点了一份蟹黄的生煎</p>
+            <div class="imgBox">
+              <img src="images/鑫震源.jpg">
+            </div>
+          </div>   
+
+        <div class="card item" data-tags="蘇州博物館｜翁同阁面馆">
+            <div class="cardHead">
+              <div class="title">
+                <h3>蘇州博物館｜翁同阁面馆</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/翁同阁面馆.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️推荐这家苏州面馆，不是一贯的网红风。蟹黄面很好吃，小姐姐服务态度超级好。免费续面续小菜，二楼风景很雅致。地址：苏州博物馆出口一直沿着梧桐路走大约两百米</p>
+            <div class="imgBox">
+              <img src="images/翁同阁面馆.jpg">
+            </div>
+          </div>
+
+  
+        <div class="card item" data-tags="平江路｜苏香记">
+            <div class="cardHead">
+              <div class="title">
+                <h3>平江路｜苏香记</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/苏香记.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️店很小，点完单拿着小盘子坐在平江路边吃，看看河中的小鱼太惬意啦！👉点了鸡爪和鸭头，鹌鹑蛋，鸭脖，卤的真的太入味了！</p>
+            <div class="imgBox">
+              <img src="images/苏香记.jpg">
+            </div>
+          </div>  
+
+        <div class="card item" data-tags="平江路｜梅月轩·梅花糕">
+            <div class="cardHead">
+              <div class="title">
+                <h3>平江路｜梅月轩·梅花糕</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/梅月轩.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️📍平江路55号，红豆梅花糕，太好吃了！很细腻的红豆沙，强烈推荐！</p>
+            <div class="imgBox">
+              <img src="images/梅月轩.jpg">
+            </div>
+          </div>           
+
+        <div class="card item" data-tags="平江路｜李百蟹">
+            <div class="cardHead">
+              <div class="title">
+                <h3>平江路｜李百蟹</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/李百蟹.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️📍狮林巷99号，必点招牌蟹黄面，漂亮的苏式糖水、芋泥麻薯、抹茶软酪、草莓麻薯冰，一边吃饭还可以看到摇橹船的阿婆，真的太惬意了</p>
+            <div class="imgBox">
+              <img src="images/李百蟹.jpg">
+            </div>
+          </div>  
+
+        <div class="card item" data-tags="平江路｜山海焗·苏州家常菜砂锅煲">
+            <div class="cardHead">
+              <div class="title">
+                <h3>平江路｜山海焗·苏州家常菜砂锅煲</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/山海焗.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️📍建新巷10号，平时本地人比较多，必点酱香牛蛙鸭舌煲，有烟火气十足，巴掌大太湖大虾，有小朋友的闭眼冲，还有苏帮菜松鼠桂鱼，鱼肉炸的很脆，浇汁鲜甜，嘎嘎好吃</p>
+            <div class="imgBox">
+              <img src="images/山海焗.jpg">
+            </div>
+          </div> 
+
+        <div class="card item" data-tags="平江路｜囍老板·苏州热炒饭店">
+            <div class="cardHead">
+              <div class="title">
+                <h3>平江路｜囍老板·苏州热炒饭店</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/囍老板.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️📍丁家巷23号，苏州家常菜，10年老店，推荐，蟹粉鲜虾粉丝煲，虾好大只，现剥蟹黄。老苏州咸肉菜饭，亲测好吃</p>
+            <div class="imgBox">
+              <img src="images/囍老板.jpg">
+            </div>
+          </div>
+
+        <div class="card item" data-tags="平江路｜啞巴生煎">
+            <div class="cardHead">
+              <div class="title">
+                <h3>平江路｜啞巴生煎</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/啞巴生煎.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️最喜欢生煎的酥脆外皮，皮冻给的很足，肉馅鲜甜一口爆汁喝到爽，哑巴生煎不愧是招牌，常吃常新😋</p>
+            <div class="imgBox">
+              <img src="images/啞巴生煎.jpg">
+            </div>
+          </div> 
+
+        <div class="card item" data-tags="平江路｜茉香枕河">
+            <div class="cardHead">
+              <div class="title">
+                <h3>平江路｜茉香枕河</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/茉香枕河.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️店里装修很有江南那味儿，拍照也出片。招牌东坡肉超大一块，肥瘦刚好，入口即化；蟹粉豆腐拌饭绝了，豆香混着蟹鲜，能干两碗饭</p>
+            <div class="imgBox">
+              <img src="images/茉香枕河.jpg">
+            </div>
+          </div>  
+
+        <div class="card item" data-tags="平江路｜百年福">
+            <div class="cardHead">
+              <div class="title">
+                <h3>平江路｜百年福</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/百年福.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️💰大份20块12个，小份15块8个，反正如果排队人不多可以尝尝！</p>
+            <div class="imgBox">
+              <img src="images/百年福.jpg">
+            </div>
+          </div> 
+
+        <div class="card item" data-tags="觀前路｜晚园苏式火锅">
+            <div class="cardHead">
+              <div class="title">
+                <h3>觀前路｜晚园苏式火锅</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/晚园苏式火锅.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️📍观前街57号，推门坠入江南园林画卷，青瓦白墙配雕花木窗，江南味儿的火锅，番茄锅巨清爽哦，糯叽叽甜品又好看、又好吃</p>
+            <div class="imgBox">
+              <img src="images/晚园苏式火锅.jpg">
+            </div>
+          </div>           
+
+        <div class="card item" data-tags="觀前路｜探花·意境江南菜">
+            <div class="cardHead">
+              <div class="title">
+                <h3>觀前路｜探花·意境江南菜</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/探花·意境江南菜.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️店里装修很有江南那味儿，拍照也出片。招牌东坡肉超大一块，肥瘦刚好，入口即化；蟹粉豆腐拌饭绝了，豆香混着蟹鲜，能干两碗饭</p>
+            <div class="imgBox">
+              <img src="images/探花·意境江南菜.jpg">
+            </div>
+          </div>   
+          
+        <div class="card item" data-tags="觀前路｜仁春园·苏帮菜·苏式面宴">
+            <div class="cardHead">
+              <div class="title">
+                <h3>觀前路｜仁春园·苏帮菜·苏式面宴</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/仁春园.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️店里装修很有江南那味儿，拍照也出片。招牌东坡肉超大一块，肥瘦刚好，入口即化；蟹粉豆腐拌饭绝了，豆香混着蟹鲜，能干两碗饭</p>
+            <div class="imgBox">
+              <img src="images/仁春园.jpg">
+            </div>
+          </div>   
+          
+        <div class="card item" data-tags="十全街｜西班牙小廚">
+            <div class="cardHead">
+              <div class="title">
+                <h3>十全街｜西班牙小廚</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/西班牙小廚.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️环境很好，很适合拍照，也很出片！但是餐食欠点意思出餐很慢（30分钟左右）为了拍照去的话，可以忽略我们点了西班牙海鲜烩饭，海鲜感觉不那么新鲜，口味还可以；烤鸡部分位置很柴😭还有青口贝，味道还行，中规中矩
+，总结：为了拍照好看，可以去。为了美食需要考量考量，可以首次尝鲜～</p>
+            <div class="imgBox">
+              <img src="images/西班牙小廚.jpg">
+            </div>
+          </div>  
+
+        <div class="card item" data-tags="十全街｜嘿啰面包">
+            <div class="cardHead">
+              <div class="title">
+                <h3>十全街｜嘿啰面包</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/嘿啰面包.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️布甸包和飞鱼籽法棍🥖是主推产品，布甸包很好吃，不踩雷👍一口气能炫4个！飞鱼籽法棍也不错，尤其是黑松露口味（有些宝子吃不习惯鱼籽会觉得腥，两极分化严重）其他的面包很多都是巴掌大，一个顶饱！就是有些小贵～
+，总结：可以冲主推品，价格略贵</p>
+            <div class="imgBox">
+              <img src="images/嘿啰面包.jpg">
+            </div>
+          </div>  
+
+        <div class="card item" data-tags="十全街｜fufuland">
+            <div class="cardHead">
+              <div class="title">
+                <h3>十全街｜fufuland</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/fufuland.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️装修和店名一样，奶fufu的～甜品🍮颜值很高，吃多会腻r💰人均18
+，总结：适合尝鲜和闺蜜、朋友共吃一个</p>
+            <div class="imgBox">
+              <img src="images/fufuland.jpg">
+            </div>
+          </div>  
+
+        <div class="card item" data-tags="十全街｜卢记烧饼">
+            <div class="cardHead">
+              <div class="title">
+                <h3>十全街｜卢记烧饼</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/卢记烧饼.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️好吃好吃！分量足，可以自己选择口味，里面的肉条也不腻哦～
+，总结：还会回购！</p>
+            <div class="imgBox">
+              <img src="images/卢记烧饼.jpg">
+            </div>
+          </div>  
+          
+        <div class="card item" data-tags="十全街｜chill创意韩国料理">
+            <div class="cardHead">
+              <div class="title">
+                <h3>十全街｜chill创意韩国料理</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/chill创意韩国料理.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️环境拍照很好看！菜品也很好吃，会约朋友去几次的地方👍</p>
+            <div class="imgBox">
+              <img src="images/chill创意韩国料理.jpg">
+            </div>
+          </div>  
+          
+        <div class="card item" data-tags="十全街｜连杏双皮奶">
+            <div class="cardHead">
+              <div class="title">
+                <h3>十全街｜连杏双皮奶</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/连杏双皮奶.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️中规中矩，无惊艳的地方，双皮奶的味道，奶味很重，💰人均18</p>
+            <div class="imgBox">
+              <img src="images/连杏双皮奶.jpg">
+            </div>
+          </div>  
+          
+        <div class="card item" data-tags="網師園｜姑苏桥·文人苏式面馆">
+            <div class="cardHead">
+              <div class="title">
+                <h3>網師園｜姑苏桥·文人苏式面馆</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/姑苏桥·文人苏式面馆.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">⭐️🍜 第一站：姑苏桥文人苏式面馆
+▪️“一碗面，见江南” 不只是标语。这里把苏式面的精致做到了极致，从汤头到浇头，都透着文人的讲究。
+<br>🥩强推「匠心猪肝」：猪肝滑嫩如绸缎，酱香浓郁裹满每一根劲道细面，是惊艳味蕾的苏式烟火气。
+<br>🐟推荐「松鼠桂鱼」松子的香醇搭配酥脆的鱼肉，一口品人间美味
+<br>🌿环境是隐世的诗：店内笔墨纸砚点缀，吃面也成了风雅事。建议可以先在dp线上取号，光线透过木格窗，拍照自带复古滤镜</p>
+            <div class="imgBox">
+              <img src="images/姑苏桥·文人苏式面馆.jpg">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Bill -->
+      <div class="section" id="bill" data-section="bill">
+        <div class="sectionTitle">
+          <h2>記帳</h2><span>Split Bill（自動結算）</span>
+        </div>
+
+        <div class="grid billGrid">
+          <div class="card">
+            <div class="cardHead">
+              <div class="title">
+                <h3>新增帳目</h3>
                 <div class="meta">
-                  <span class="pill">🍜 熱食</span>
-                  <span class="pill">🌙 晚上</span>
+                  <span class="pill">localStorage 自動保存</span>
+                  <span class="pill">TWD / CNY</span>
                 </div>
               </div>
               <div class="actions">
-                <button class="btn" data-toast="已加入：晚餐備選">加入</button>
+                <button class="btn secondary" id="billClear">清空</button>
               </div>
             </div>
-            <p class="desc">先斗町或河岸附近都不錯，記得先查營業時間。</p>
+
+            <div class="field" style="margin-top:12px;">
+              <label>品項名稱</label>
+              <input class="input" id="billTitle" placeholder="例如：晚餐 / 車費 / 門票" />
+            </div>
+
+            <div class="field" style="margin-top:12px;">
+              <label>金額</label>
+              <input class="input mono" id="billAmount" type="number" inputmode="decimal" placeholder="例如：120" />
+            </div>
+
+            <div class="field" style="margin-top:12px;">
+              <label>幣別</label>
+              <div class="chipRow" id="billCurrency">
+                <button class="chipBtn active" data-cur="CNY">CNY</button>
+                <button class="chipBtn" data-cur="TWD">TWD</button>
+              </div>
+            </div>
+
+            <div class="field" style="margin-top:12px;">
+              <label>誰付錢（PAYER）</label>
+              <div class="chipRow" id="billPayer"></div>
+            </div>
+
+            <div class="field" style="margin-top:12px;">
+              <label>分給誰（SPLIT WITH）</label>
+              <div class="chipRow" id="billSplit"></div>
+            </div>
+
+            <div style="margin-top:12px;">
+              <button class="btn" id="billAdd" style="width:100%;">加入帳目</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="cardHead">
+              <div class="title">
+                <h3>結算（Balance）</h3>
+                <div class="meta">
+                </div>
+              </div>
+            </div>
+
+            <div class="billTable" id="billBalance" style="margin-top:12px;"></div>
+          </div>
+
+          <div class="card">
+            <div class="cardHead">
+              <div class="title">
+                <h3>最近紀錄</h3>
+              </div>
+            </div>
+            <div class="billTable" id="billList" style="margin-top:12px;"></div>
           </div>
         </div>
       </div>
 
       <!-- Info -->
-      <div class="section" id="info">
+      <div class="section" id="info" data-section="info">
         <div class="sectionTitle">
           <h2>交通資訊</h2><span>懶人版</span>
         </div>
 
         <div class="grid">
-          <div class="card item" data-tags="交通">
+          <div class="card item" data-tags="上海机场市域铁">
             <div class="cardHead">
               <div class="title">
-                <h3>移動策略</h3>
-                <div class="meta">
-                  <span class="pill">🚌 巴士</span>
-                  <span class="pill">🚇 地鐵</span>
-                  <span class="pill">🚆 JR</span>
-                </div>
+                <h3>上海机场市域铁</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/上海机场市域铁.jpg">看圖片</button>
               </div>
             </div>
-            <p class="desc">市區巴士方便但會塞車；長距離用 JR/地鐵更穩。嵐山建議早出。</p>
+            <p class="desc">	
+            👇🏻手把手教你如何丝滑换乘，记得收藏备用！
+            <br>Step 1️⃣：出高铁闸机后别迷茫！
+            <br>下车后跟着人流出站，刷身份证走出高铁闸机口（不用上地面！全程室内走超省心）
+            <br>	
+            <br>Step 2️⃣：抬头找“市域铁”标识！
+            <br>出站后立刻抬头看指示牌！蓝白色的“市域铁”字样特别明显（见图3）➡️ 跟着箭头方向走就对了！
+            <br>	
+            <br>Step 3️⃣：路过麦当劳小歇站🍟
+            <br>沿着通道走2分钟会看到一家麦当劳～（如果想买吃的可以稍作停留，但别耽误太久hhh）
+            <br>	
+            <br>Step 4️⃣：看到“机场联络线”拱门！
+            <br>继续往前走30米就会看到超有未来感的机场联络线入口！（银色波浪吊顶+蓝色指示灯，图5那超好拍！）
+            <br>	
+            <br>Step 5️⃣：扶梯下楼直达站台！
+            <br>从拱门下去就是乘车层～班次超密基本不用等～上车后找座位坐下（行李架超多！），一路刷刷手机就到浦东啦～📱
+            <br>	
+            <br>💡小贴士：
+            <br>✅运营时间：最早6:30｜最晚22:00（图8详细时刻表）【节假日会有变化】
+            <br>✅票价：26元（比打车省100+！）
+            <br>✅全程38分钟无红灯！超快！
+            <br>✅支持支付宝/交通卡/手机NFC/扫码进站（超方便）
+            <div class="imgBox">
+              <img src="images/上海机场市域铁.jpg">
+            </div>
           </div>
 
-          <div class="card item" data-tags="緊急">
+          <div class="card item" data-tags="上海蘇州火車">
             <div class="cardHead">
               <div class="title">
-                <h3>緊急聯絡</h3>
-                <div class="meta">
-                  <span class="pill">🚓 警察 110</span>
-                  <span class="pill">🚑 救護 119</span>
-                </div>
+                <h3>上海蘇州火車</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/蘇州地鐵.jpg">看圖片</button>
               </div>
             </div>
-            <p class="desc">手機可先存住宿地址（英日皆可），搭車時很好用。</p>
+            <p class="desc">从上海到苏州，体验了一把直接在机场换乘高铁
+            <br>晃晃悠悠走路15分钟丝滑进站
+            <br>到达后一直往出走看到指示牌
+            <br>因为我没有托运的行李，所以直接走右边
+            <br>图2️⃣【无托运行李旅客】
+            <br>经过长长的一个廊桥，图3️⃣
+            <br>出廊桥左转，不要看指示牌上的B1
+            <br>直接按3F，去三层，图4️⃣
+            <br>听我的距离更短更方便
+            <br>上去后是出发厅
+            <br>可以看到有火车指示标志，很明显
+            <br>顺着标志的指示方向走
+            <br>就能看到火车站的入口啦
+            <br>整个路程不跑不赶，从机场到火车站10分钟
+            <br>从路线指示开始到上火车25分钟
+            <div class="imgBox">
+              <img src="images/上海虹桥.jpg">
+            </div>
+          </div>
+
+          <div class="card item" data-tags="蘇州地鐵">
+            <div class="cardHead">
+              <div class="title">
+                <h3>蘇州地鐵</h3>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-img="images/蘇州地鐵.jpg">看圖片</button>
+              </div>
+            </div>
+            <p class="desc">🚇 1号线：古典与现代的穿越线
+            <br>📍木渎站：出口步行可达 严家花园、虹饮山房，感受乾隆年间苏州园林的韵味。
+            <br>📍乐桥站：市中心枢纽，步行10分钟直达 观前街。这里是美食购物天堂，老字号和网红店云集。
+            <br>📍临顿路站：步行约8分钟即可到达 平江路。小桥流水、手摇船、评弹，这里浓缩了江南水乡的全部风情。
+            <br>📍相门站：可登上 相门城墙，看看护城河，旁边还有免费的 苏州城墙博物馆。
+            <br>📍东方之门站：苏州地标 “大裤衩” 脚下，直达 金鸡湖 景区。看夕阳、逛诚品书店、欣赏周五晚上的音乐喷泉，现代苏州就在这里。
+            <br>============================================
+            <br>🚇 4号线：园林与文化的精华线
+            <br>📍北寺塔站：出站就能看到这座古塔，是苏州古城的重要标志。
+            <br>📍察院场站：步行可达 拙政园、狮子林 和 苏州博物馆。苏博（需提前预约）是贝聿铭的封山之作，光影绝美。这一站是苏州园林的精华所在。
+            <br>📍南门站：附近有 盘门景区，可以看到水陆并联的古盘门，是苏州独一无二的古城遗迹。
+            <br>============================================
+            <br>🚇 2号线：运河与老街的漫步线
+            <br>📍山塘街站：出站就是 山塘街。华灯初上时，这里是最美的“姑苏第一名街”。乘船夜游，景色绝佳。
+            <br>📍石路站：另一个繁华商圈，可以从这里步行至山塘街的另一段，感受更生活化的一面。
+            <br>📍新家桥站：可前往 运河公园，悠闲散步，感受古运河的宁静。
+            <br>============================================
+            <br>🚇 其他线路亮点补充
+            <br>📍3号线 狮山站：直达 狮山天街 等大型商场，是现代购物休闲的好去处。
+            <br>📍5号线 太湖香山站：这是通往 太湖 的窗口，适合计划去太湖周边游玩的朋友。
+            <br>📍11号线 花桥站：连通上海的奇迹线路，跨城游玩必备。</p>
+            <div class="imgBox">
+              <img src="images/蘇州地鐵.jpg">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Guide -->
+      <div class="section" id="guide" data-section="guide">
+        <div class="sectionTitle">
+          <h2>指南</h2><span>出發前 & 現場備忘</span>
+        </div>
+
+        <div class="grid">
+          <div class="card item" data-tags="必帶清單">
+            <div class="cardHead">
+              <div class="title">
+                <h3>必帶清單</h3>
+                <div class="meta">
+                  <span class="pill">證件</span>
+                  <span class="pill">網路</span>
+                  <span class="pill">轉接頭</span>
+                </div>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
+            </div>
+            <p class="desc">護照/台胞證、行動電源、充電線、轉接頭、舒適好走的鞋、雨具（江南水氣）。</p>
+          </div>
+
+          <div class="card item" data-tags="拍照技巧">
+            <div class="cardHead">
+              <div class="title">
+                <h3>拍照小技巧（園林 / 水巷）</h3>
+                <div class="meta">
+                  <span class="pill">窗框借景</span>
+                  <span class="pill">倒影</span>
+                  <span class="pill">清晨光</span>
+                </div>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
+            </div>
+            <p class="desc">找窗框、門洞做「框景」；水面平靜時拍倒影；清晨/傍晚光最柔和最出片。</p>
+          </div>
+
+          <div class="card item" data-tags="小提醒">
+            <div class="cardHead">
+              <div class="title">
+                <h3>小提醒</h3>
+                <div class="meta">
+                  <span class="pill">門票</span>
+                  <span class="pill">預約</span>
+                  <span class="pill">路線</span>
+                </div>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-detail>看詳情</button>
+              </div>
+            </div>
+            <p class="desc">熱門園林/博物館有些要預約；你已經寫好推薦路線，照著走最省力。</p>
           </div>
         </div>
       </div>
@@ -721,77 +1638,528 @@
     </div>
   </div>
 
-
+  <!-- Toast -->
   <div class="toast" id="toast"></div>
 
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modalBackdrop" data-close></div>
+    <div class="modalSheet">
+      <button class="modalClose" data-close>✕</button>
+      <div class="modalBody" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <nav class="bottomNav">
+    <button class="navBtn active" data-go="itinerary">🧭<span>行程</span></button>
+    <button class="navBtn" data-go="food">🍜<span>探索</span></button>
+    <button class="navBtn" data-go="bill">🧾<span>記帳</span></button>
+    <button class="navBtn" data-go="info">✈️<span>資訊</span></button>
+    <button class="navBtn" data-go="guide">📖<span>指南</span></button>
+  </nav>
+
   <script>
-    // Tabs switch
-    const tabs = document.querySelectorAll('.tab');
-    const sections = document.querySelectorAll('.section');
-    tabs.forEach(t => {
-      t.addEventListener('click', () => {
-        tabs.forEach(x => x.classList.remove('active'));
-        sections.forEach(s => s.classList.remove('active'));
-        t.classList.add('active');
-        document.getElementById(t.dataset.tab).classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    });
-
-    // Map open
-    document.querySelectorAll('[data-map]').forEach(btn => {
-      btn.addEventListener('click', () => window.open(btn.dataset.map, '_blank', 'noopener,noreferrer'));
-    });
-
-    // Copy
+    /* =========================
+      Helpers
+    ========================= */
     const toastEl = document.getElementById('toast');
     const showToast = (msg) => {
+      if (!toastEl) return;
       toastEl.textContent = msg;
       toastEl.style.display = 'block';
       clearTimeout(showToast.t);
       showToast.t = setTimeout(() => toastEl.style.display = 'none', 1600);
     };
 
-    document.querySelectorAll('[data-copy]').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        try{
-          await navigator.clipboard.writeText(btn.dataset.copy);
-          showToast('已複製：' + btn.dataset.copy);
-        }catch(e){
-          showToast('複製失敗（瀏覽器權限）');
+    const q = document.getElementById('q');
+    const count = document.getElementById('count');
+
+    // ✅ 美食分區：目前選到哪一個（all / 山塘街 / 平江路 / 觀前 / 十全街 / other）
+    let activeFoodKey = 'all';
+
+    const FOOD_AREAS = ['山塘街', '平江路', '觀前', '十全街'];
+
+    const getActiveSections = () => Array.from(document.querySelectorAll('.section.active'));
+
+    const getVisibleItems = () => {
+      const secs = getActiveSections();
+      const nodes = [];
+      secs.forEach(sec => {
+        sec.querySelectorAll('.item, .titem').forEach(n => nodes.push(n));
+      });
+      return nodes;
+    };
+
+    // ✅ 從美食卡片抓「區域」：優先 data-area，沒有就從 data-tags 用「｜」切第一段
+    const getFoodAreaOfCard = (card) => {
+      const rawArea = (card.dataset.area || '').trim();
+      if (rawArea) return rawArea;
+
+      const rawTags = (card.dataset.tags || '').trim();
+      if (rawTags.includes('｜')) return rawTags.split('｜')[0].trim();
+      if (rawTags.includes('|')) return rawTags.split('|')[0].trim();
+
+      // 沒資料就回空
+      return '';
+    };
+
+    // ✅ 判斷某張美食卡片是否通過分區篩選
+    const passFoodAreaFilter = (card) => {
+      if (activeFoodKey === 'all') return true;
+
+      const area = getFoodAreaOfCard(card); // 例如：山塘街
+      if (!area) {
+        // 沒 area 的：只有在 other 才顯示
+        return activeFoodKey === 'other';
+      }
+
+      if (activeFoodKey === 'other') {
+        // other = 不屬於常見四區
+        return !FOOD_AREAS.some(a => area.includes(a));
+      }
+
+      // 一般：要包含該區域
+      return area.includes(activeFoodKey);
+    };
+
+    const applyFilter = () => {
+      const v = (q?.value || '').trim().toLowerCase();
+      let shown = 0;
+
+      // 只處理目前 active section 的 items
+      getVisibleItems().forEach(el => {
+        const text = (el.textContent + ' ' + (el.dataset.tags || '')).toLowerCase();
+
+        // 1) 搜尋關鍵字
+        const okSearch = !v || text.includes(v);
+
+        // 2) 美食分區（只對 #food 裡的 .item 生效）
+        const sec = el.closest('.section');
+        const isFoodCard = sec && sec.id === 'food' && el.classList.contains('item');
+        const okFoodArea = isFoodCard ? passFoodAreaFilter(el) : true;
+
+        const ok = okSearch && okFoodArea;
+        el.style.display = ok ? '' : 'none';
+        if (ok) shown++;
+      });
+
+      if (count) count.textContent = shown;
+    };
+
+    if (q) q.addEventListener('input', applyFilter);
+
+    /* =========================
+      Top Day Tabs (Day1~Day4)
+      ✅ 只綁 day 的 tab，避免 food/info 混進來
+    ========================= */
+    const allTabs = Array.from(document.querySelectorAll('.tab'));
+    const dayTabs = allTabs.filter(t => /^day\d+$/i.test(t.dataset.tab || ''));
+
+    let currentDayId = 'day1';
+
+    const showSection = (id) => {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(id);
+      if (target) target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      applyFilter();
+    };
+
+    const setDayTabActive = (id) => {
+      dayTabs.forEach(x => x.classList.remove('active'));
+      const t = dayTabs.find(t => t.dataset.tab === id);
+      if (t) t.classList.add('active');
+    };
+
+    dayTabs.forEach(t => {
+      t.addEventListener('click', () => {
+        currentDayId = t.dataset.tab;
+        setDayTabActive(currentDayId);
+        showSection(currentDayId);
+        setBottomNavActive('itinerary');
+      });
+    });
+
+    /* =========================
+      Bottom Nav
+    ========================= */
+    const navBtns = document.querySelectorAll('.bottomNav .navBtn');
+
+    function setBottomNavActive(key) {
+      navBtns.forEach(b => b.classList.remove('active'));
+      const btn = Array.from(navBtns).find(b => b.dataset.go === key);
+      if (btn) btn.classList.add('active');
+
+      // Tabs 只在行程顯示
+      const tabsEl = document.getElementById('tabs');
+      if (tabsEl) {
+        tabsEl.style.display = (key === 'itinerary') ? 'flex' : 'none';
+      }
+    }
+
+    navBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const go = btn.dataset.go;
+        setBottomNavActive(go);
+
+        if (go === 'itinerary') {
+          setDayTabActive(currentDayId);
+          showSection(currentDayId);
+        } else if (go === 'food') {
+          showSection('food');
+        } else if (go === 'bill') {
+          showSection('bill');
+        } else if (go === 'info') {
+          showSection('info');
+        } else if (go === 'guide') {
+          showSection('guide');
         }
       });
     });
 
-    document.querySelectorAll('[data-toast]').forEach(btn => {
-      btn.addEventListener('click', () => showToast(btn.dataset.toast));
+    // 初始：行程頁顯示 tabs
+    setBottomNavActive('itinerary');
+    applyFilter();
+
+    /* =========================
+      Image toggle (data-img)
+      支援 .card 與 .tCard
+    ========================= */
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-img]');
+      if (!btn) return;
+
+      const host = btn.closest('.card') || btn.closest('.tCard');
+      if (!host) return;
+
+      const src = btn.dataset.img;
+
+      const imgBox = host.querySelector('.imgBox');
+      const img = imgBox ? imgBox.querySelector('img') : null;
+
+      if (img) img.src = encodeURI(src);
+
+      host.classList.toggle('show-img');
+      btn.textContent = host.classList.contains('show-img') ? '收起圖片' : '看圖片';
     });
 
-    // Stay nav
-    document.getElementById('stayNav').addEventListener('click', () => {
-      window.open("https://www.google.com/maps/search/?api=1&query=Hotel%20Mystays%20Kyoto%20Shijo", "_blank", "noopener,noreferrer");
-    });
+    /* =========================
+      Modal (通用詳情)
+    ========================= */
+    const modal = document.getElementById('modal');
+    const modalBody = document.getElementById('modalBody');
 
-    // Search filter
-    const q = document.getElementById('q');
-    const count = document.getElementById('count');
-    const allItems = () => document.querySelectorAll('.item, .titem');
-
-    const applyFilter = () => {
-      const v = q.value.trim().toLowerCase();
-      let shown = 0;
-      allItems().forEach(el => {
-        const text = (el.textContent + ' ' + (el.dataset.tags || '')).toLowerCase();
-        const ok = !v || text.includes(v);
-        el.style.display = ok ? '' : 'none';
-        if(ok) shown++;
-      });
-      count.textContent = shown;
+    const openModal = (html) => {
+      if (!modal || !modalBody) return;
+      modalBody.innerHTML = html;
+      modal.classList.add('show');
+    };
+    const closeModal = () => {
+      if (!modal || !modalBody) return;
+      modal.classList.remove('show');
+      modalBody.innerHTML = '';
     };
 
-    q.addEventListener('input', applyFilter);
-    // initial count
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target.matches('[data-close]')) closeModal();
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-detail]');
+      if (!btn) return;
+
+      const host = btn.closest('.tCard') || btn.closest('.card');
+      if (!host) return;
+
+      const title = host.querySelector('h3') ? host.querySelector('h3').textContent.trim() : '詳情';
+      const timeEl = host.closest('.row') ? host.closest('.row').querySelector('.time') : null;
+      const timeText = timeEl ? timeEl.textContent.trim() : '';
+
+      const small = host.querySelector('.small') ? host.querySelector('.small').innerHTML.trim() : '';
+      const desc = host.querySelector('.desc') ? host.querySelector('.desc').innerHTML.trim() : '';
+
+      const img = host.querySelector('.imgBox img') ? host.querySelector('.imgBox img').getAttribute('src') : '';
+      const mapLink = host.querySelector('a.link') ? host.querySelector('a.link').getAttribute('href') : '';
+
+      openModal(`
+        <h2>${title}</h2>
+        <div class="sub">${timeText ? `⏰ ${timeText}` : ''}</div>
+        ${img ? `<img src="${encodeURI(img)}" style="width:100%;border-radius:14px;border:1px solid rgba(30,35,38,.14);margin: 6px 0 10px;">` : ''}
+        <div class="box">
+          ${small || desc || '（尚無詳細內容）'}
+        </div>
+        <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
+          ${mapLink ? `<a class="link" target="_blank" href="${mapLink}">📍 開地圖</a>` : ''}
+          <button class="btn secondary" data-close style="margin-left:auto;">關閉</button>
+        </div>
+      `);
+    });
+
+    /* =========================
+      Explore segmented filter
+      ✅ 修正：不再直接改 display（會被 applyFilter 覆蓋）
+      ✅ 改成：只更新 activeFoodKey，然後 applyFilter
+    ========================= */
+    const foodSeg = document.getElementById('foodSeg');
+
+    if (foodSeg) {
+      foodSeg.addEventListener('click', (e) => {
+        const b = e.target.closest('[data-foodfilter]');
+        if (!b) return;
+
+        // 切換按鈕樣式
+        foodSeg.querySelectorAll('.segBtn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+
+        // ✅ 更新全域狀態
+        activeFoodKey = (b.dataset.foodfilter || 'all').trim();
+
+        // ✅ 重新套用「搜尋 + 分區」的總篩選
+        applyFilter();
+      });
+    }
+
+    /* =========================
+      Day Route (Google Maps dir api)
+    ========================= */
+    const buildDirUrl = (places) => {
+      const cleaned = places
+        .map(s => (s || '').trim())
+        .filter(Boolean);
+
+      // 去除連續重複
+      const uniq = [];
+      cleaned.forEach(p => {
+        if (uniq.length === 0 || uniq[uniq.length-1] !== p) uniq.push(p);
+      });
+
+      if (uniq.length < 2) return null;
+
+      const origin = encodeURIComponent(uniq[0]);
+      const destination = encodeURIComponent(uniq[uniq.length-1]);
+      const waypoints = uniq.slice(1, -1).map(encodeURIComponent).join('|');
+
+      let url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}`;
+      if (waypoints) url += `&waypoints=${waypoints}`;
+      return url;
+    };
+
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-route]');
+      if (!btn) return;
+
+      const dayId = btn.dataset.route;
+      const sec = document.getElementById(dayId);
+      if (!sec) return showToast('找不到該天行程');
+
+      const places = Array.from(sec.querySelectorAll('.tCard h3')).map(h => h.textContent);
+      const url = buildDirUrl(places);
+
+      if (!url) return showToast('該天行程點太少，無法產生路線');
+      window.open(url, '_blank', 'noopener,noreferrer');
+    });
+
+    /* =========================
+      Bill (Split)
+    ========================= */
+    const PEOPLE = ['卓呈浩','鄭郁樺'];
+    const STORAGE_KEY = 'sz_sh_guide_bill_v1';
+
+    const billTitle = document.getElementById('billTitle');
+    const billAmount = document.getElementById('billAmount');
+    const billPayer = document.getElementById('billPayer');
+    const billSplit = document.getElementById('billSplit');
+    const billBalance = document.getElementById('billBalance');
+    const billList = document.getElementById('billList');
+    const billAdd = document.getElementById('billAdd');
+    const billClear = document.getElementById('billClear');
+    const billCurrency = document.getElementById('billCurrency');
+
+    let state = {
+      currency: 'CNY',
+      payer: PEOPLE[0],
+      split: new Set(PEOPLE),
+      items: []
+    };
+
+    const loadState = () => {
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const parsed = JSON.parse(raw);
+        if (parsed && Array.isArray(parsed.items)) {
+          state.items = parsed.items;
+        }
+      }catch(e){}
+    };
+
+    const saveState = () => {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ items: state.items }));
+    };
+
+    const renderPeopleChips = () => {
+      if (!billPayer || !billSplit) return;
+
+      billPayer.innerHTML = PEOPLE.map(name => `
+        <button class="chipBtn ${state.payer === name ? 'active' : ''}" data-payer="${name}">${name}</button>
+      `).join('');
+
+      billSplit.innerHTML = PEOPLE.map(name => `
+        <button class="chipBtn ${state.split.has(name) ? 'active' : ''}" data-split="${name}">${name}</button>
+      `).join('');
+    };
+
+    const formatMoney = (n) => {
+      const v = Math.round(n * 100) / 100;
+      return v.toFixed(2);
+    };
+
+    const calcBalances = () => {
+      const balances = {};
+      for (const it of state.items) {
+        const cur = it.currency;
+        balances[cur] ||= {};
+        PEOPLE.forEach(p => balances[cur][p] ||= 0);
+
+        const share = it.amount / it.splitWith.length;
+        balances[cur][it.payer] += it.amount;
+        it.splitWith.forEach(p => {
+          balances[cur][p] -= share;
+        });
+      }
+      return balances;
+    };
+
+    const renderBill = () => {
+      if (!billBalance || !billList) return;
+
+      const balances = calcBalances();
+      const curs = Object.keys(balances);
+      billBalance.innerHTML = '';
+
+      if (curs.length === 0) {
+        billBalance.innerHTML = `<div class="billRow"><div>目前沒有需要結算的款項</div></div>`;
+      } else {
+        curs.forEach(cur => {
+          const box = document.createElement('div');
+          box.className = 'billRow';
+          box.innerHTML = `<div style="font-weight:950;">${cur} BALANCE</div><div class="mono">${PEOPLE.map(p => `${p}: ${formatMoney(balances[cur][p])}`).join(' · ')}</div>`;
+          billBalance.appendChild(box);
+        });
+      }
+
+      billList.innerHTML = '';
+      if (state.items.length === 0) {
+        billList.innerHTML = `<div class="billRow"><div>目前沒有帳目</div></div>`;
+      } else {
+        state.items.slice().reverse().forEach((it, idx) => {
+          const realIndex = state.items.length - 1 - idx;
+          const row = document.createElement('div');
+          row.className = 'billRow';
+          row.innerHTML = `
+            <div>
+              <div style="font-weight:950;">${it.title || '（未命名）'}</div>
+              <div style="color:rgba(30,35,38,.65);font-size:12.5px;margin-top:3px;">
+                ${it.currency} ${formatMoney(it.amount)} · payer: ${it.payer} · split: ${it.splitWith.join(', ')}
+              </div>
+            </div>
+            <button class="btn secondary" data-delbill="${realIndex}">刪除</button>
+          `;
+          billList.appendChild(row);
+        });
+      }
+    };
+
+    if (billCurrency) {
+      billCurrency.addEventListener('click', (e) => {
+        const b = e.target.closest('[data-cur]');
+        if (!b) return;
+        billCurrency.querySelectorAll('.chipBtn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        state.currency = b.dataset.cur;
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      const p = e.target.closest('[data-payer]');
+      if (p) {
+        state.payer = p.dataset.payer;
+        renderPeopleChips();
+        return;
+      }
+      const s = e.target.closest('[data-split]');
+      if (s) {
+        const name = s.dataset.split;
+        if (state.split.has(name)) state.split.delete(name);
+        else state.split.add(name);
+
+        if (state.split.size === 0) state.split.add(name);
+        renderPeopleChips();
+        return;
+      }
+      const del = e.target.closest('[data-delbill]');
+      if (del) {
+        const idx = Number(del.dataset.delbill);
+        if (!Number.isNaN(idx)) {
+          state.items.splice(idx, 1);
+          saveState();
+          renderBill();
+          showToast('已刪除一筆');
+        }
+      }
+    });
+
+    if (billAdd) {
+      billAdd.addEventListener('click', () => {
+        const title = (billTitle?.value || '').trim();
+        const amount = Number(billAmount?.value || 0);
+
+        const splitWith = Array.from(state.split);
+        if (!amount || amount <= 0) return showToast('請輸入正確金額');
+        if (splitWith.length === 0) return showToast('請選分給誰');
+
+        const item = {
+          title,
+          amount,
+          currency: state.currency,
+          payer: state.payer,
+          splitWith,
+          ts: Date.now()
+        };
+        state.items.push(item);
+        saveState();
+        renderBill();
+
+        if (billTitle) billTitle.value = '';
+        if (billAmount) billAmount.value = '';
+        showToast('已加入帳目');
+      });
+    }
+
+    if (billClear) {
+      billClear.addEventListener('click', () => {
+        state.items = [];
+        saveState();
+        renderBill();
+        showToast('已清空');
+      });
+    }
+
+    // init bill
+    loadState();
+    renderPeopleChips();
+    renderBill();
+
+    // 最後再跑一次（確保 count 正確）
     applyFilter();
+      
+    if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./sw.js");
+  }
   </script>
+
 </body>
 </html>
